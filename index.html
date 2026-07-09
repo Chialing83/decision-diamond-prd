@@ -1,0 +1,3764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Decision Diamond 2.0 - Object expansions · PRD Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --bg-subtle: #FAFBFC;
+    --border: #E5E7EB;
+    --border-strong: #D1D5DB;
+    --text: #14161B;
+    --text-muted: #3B3D43;
+    --text-faint: #6E6F74;
+    --brand: #2D5BE3;
+    --brand-soft: #EEF2FE;
+    --accent: #7C3AED;
+    --critical: #B91C1C;
+    --high: #DC2626;
+    --medium: #7C7C7C;
+    --low: #A8AAB0;
+    --success: #16A34A;
+    --warn: #F59E0B;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 1px 2px rgba(20,22,27,0.04), 0 4px 12px rgba(20,22,27,0.04);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- nav ---------- */
+  nav.top {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: saturate(180%) blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav.top .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  nav.top .brand {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  nav.top .brand .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    background: var(--brand);
+    color: white;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 8px;
+    letter-spacing: 0.02em;
+  }
+  nav.top ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 24px;
+    flex: 1;
+  }
+  nav.top a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav.top a:hover { color: var(--text); border-bottom-color: var(--text); }
+  nav.top .meta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- layout ---------- */
+  main { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+  section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  .eyebrow {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.14em;
+margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+  }
+  h2 {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin: 0 0 12px;
+  }
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+  }
+  .lede {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 720px;
+    margin: 0 0 32px;
+  }
+  p { margin: 0 0 12px; color: var(--text-muted); }
+  hr.soft { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 80px 0 60px; border-bottom: 1px solid var(--border); }
+  .hero .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--brand-soft);
+    color: var(--brand);
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .hero .pill .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--brand);
+  }
+  .hero .meta-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .hero .meta-row > div { font-size: 14px; }
+  .hero .meta-row .label {
+    color: var(--text-faint);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+margin-bottom: 4px;
+  }
+  .hero .meta-row .value {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ---------- scope ---------- */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .scope-card {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .scope-card.in { border-left: 3px solid var(--success); }
+  .scope-card.out { border-left: 3px solid var(--low); }
+  .scope-card ul {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .scope-card li {
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .scope-card li:first-child { border-top: none; padding-top: 0; }
+  .scope-card li::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 4px;
+    flex-shrink: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .scope-card.in li::before {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'><path d='M3 7l3 3 5-5' stroke='%2316A34A' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  }
+  .scope-card.out li::before {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'><path d='M3 3l8 8M11 3l-8 8' stroke='%23A8AAB0' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
+  }
+  .users-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .user-chip {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    background: white;
+  }
+  .user-chip .who { font-weight: 600; color: var(--text); font-size: 14px; }
+  .user-chip .what { color: var(--text-faint); font-size: 14px; margin-top: 4px; }
+
+  /* ---------- summary table ---------- */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+    font-size: 14px;
+  }
+  .summary-table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+padding: 12px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-table td {
+    padding: 14px 8px;
+    border-bottom: 1px solid #F1F3F5;
+    color: var(--text-muted);
+    vertical-align: middle;
+  }
+  .summary-table td.id {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--text);
+    width: 80px;
+  }
+  .summary-table td.issue { color: var(--text); font-weight: 500; }
+  .summary-table td.issue a { color: inherit; text-decoration: none; }
+  .summary-table td.issue a:hover { color: var(--brand); }
+  .summary-table td.severity { width: 110px; text-align: right; }
+  .summary-table th.sortable { padding: 0; }
+  .summary-table th.sortable .sort-trigger {
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+    padding: 14px 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    justify-content: flex-end;
+    transition: color 0.15s;
+  }
+  .summary-table th.sortable .sort-trigger:hover { color: var(--text); }
+  .summary-table th.sortable .sort-arrow {
+    font-size: 14px;
+    color: var(--text-faint);
+    transition: transform 0.18s ease-out, color 0.15s;
+    line-height: 1;
+  }
+  .summary-table th.sortable[aria-sort="descending"] .sort-arrow,
+  .summary-table th.sortable[aria-sort="ascending"] .sort-arrow { color: var(--brand); }
+  .summary-table th.sortable[aria-sort="ascending"] .sort-arrow { transform: rotate(180deg); }
+
+  /* ---------- pills ---------- */
+  .pill-severity {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: white;
+}
+  .pill-severity.critical { background: var(--critical); }
+  .pill-severity.high { background: var(--high); }
+  .pill-severity.medium { background: var(--medium); }
+  .pill-severity.low { background: var(--low); }
+  .scope-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .scope-dot.dd { background: var(--brand); }
+  .scope-dot.overall { background: #F97316; }
+
+  /* ---------- findings ---------- */
+  .findings-slides {
+    margin-top: 24px;
+    position: relative;
+  }
+  .findings-track {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: white;
+    overflow: hidden;
+  }
+  .finding-card {
+    border: 0;
+    border-radius: 0;
+    overflow: hidden;
+    background: white;
+    display: none;
+    flex-direction: row;
+    transition: opacity 0.18s ease-out;
+  }
+  .finding-card[aria-current="true"] { display: flex; }
+  .finding-card:hover { box-shadow: none; transform: none; }
+  .finding-card .stripe {
+    width: 4px;
+    height: auto;
+    flex-shrink: 0;
+  }
+  .finding-card .stripe.critical { background: var(--critical); }
+  .finding-card .stripe.high { background: var(--high); }
+  .finding-card .stripe.medium { background: var(--medium); }
+  .finding-card .stripe.low { background: var(--low); }
+  .finding-card .body {
+    padding: 32px 36px;
+    flex: 1;
+    display: grid;
+    grid-template-columns: 6fr 4fr;
+    column-gap: 36px;
+    row-gap: 0;
+    align-items: start;
+  }
+  .finding-card .image-slot {
+    background: var(--bg-subtle);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-sm);
+    margin: 0;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    grid-column: 1;
+    grid-row: 1 / span 10;
+    align-self: stretch;
+  }
+  /* When a real image is present, ease the placeholder treatment */
+  .finding-card .image-slot:has(img:not(.broken)) {
+    background: transparent;
+    border-style: solid;
+    border-color: var(--border);
+    align-self: start;
+    min-height: 0;
+  }
+  .finding-card .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    grid-column: 2;
+  }
+  .finding-card .aud {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+  }
+  .finding-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 8px 0 4px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    grid-column: 2;
+  }
+  .finding-card .tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    grid-column: 2;
+  }
+  .finding-card .tags .sep { color: var(--border-strong); }
+  .finding-card .image-slot img {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: white;
+  }
+  .finding-card .image-slot .placeholder {
+    text-align: center;
+    padding: 16px;
+    color: var(--text-faint);
+  }
+  .finding-card .image-slot .placeholder .icon {
+    font-size: 24px;
+    margin-bottom: 6px;
+    opacity: 0.4;
+  }
+  .finding-card .image-slot .placeholder .label {
+    font-size: 14px;
+    font-weight: 600;
+letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .finding-card .image-slot .placeholder .filename {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .finding-card .image-slot .matched {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: var(--success);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+  .finding-card .label-row {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+margin: 0 0 2px;
+    grid-column: 2;
+  }
+  .finding-card .pain {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0 0 22px;
+    grid-column: 2;
+  }
+  .finding-card .rec {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    margin: 0;
+    grid-column: 2;
+  }
+  .finding-card .divider {
+    border: none;
+    border-top: 1px solid #F1F3F5;
+    margin: 0 0 18px;
+    grid-column: 2;
+  }
+
+  /* image fallback: hide img if broken, show placeholder */
+  .image-slot img.broken { display: none; }
+  .image-slot:has(img:not(.broken)) .placeholder { display: none; }
+
+  /* Slides navigation */
+  .slides-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    gap: 12px;
+  }
+  .slides-nav .counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    font-weight: 500;
+  }
+  .slides-nav .arrows { display: flex; gap: 6px; }
+  .slides-nav button {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.12s, color 0.12s, background 0.12s;
+  }
+  .slides-nav button:hover:not(:disabled) {
+    border-color: var(--brand);
+    color: var(--brand);
+  }
+  .slides-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Table row click affordance */
+  #findings-summary-table tbody tr {
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  #findings-summary-table tbody tr:hover { background: var(--bg-subtle); }
+  #findings-summary-table tbody tr.active { background: var(--brand-soft); }
+  #findings-summary-table tbody tr.active td.id { color: var(--brand); }
+
+  @media (max-width: 900px) {
+    .finding-card .body { grid-template-columns: 1fr; gap: 20px; padding: 24px; }
+    .finding-card .image-slot { grid-column: 1; grid-row: auto; }
+    .finding-card .header,
+    .finding-card h3,
+    .finding-card .tags,
+    .finding-card .label-row,
+    .finding-card .pain,
+    .finding-card .rec,
+    .finding-card .divider { grid-column: 1; }
+  }
+
+  /* ---------- metrics ---------- */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .kpi {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    background: white;
+  }
+  .kpi .name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+margin-bottom: 8px;
+  }
+  .kpi .target {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .kpi .desc { font-size: 14px; color: var(--text-muted); }
+  .metrics-table { margin-top: 32px; }
+  .secondary-list {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .secondary-list h4 {
+    margin: 0 0 12px;
+    font-size: 14px;
+    font-weight: 600;
+letter-spacing: 0.1em;
+    color: var(--text-faint);
+  }
+  .secondary-list ul { margin: 0; padding-left: 18px; }
+  .secondary-list li { padding: 4px 0; color: var(--text-muted); font-size: 14px; }
+
+  /* ---------- testing plan ---------- */
+  .phase-stack { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+  .phase {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    background: white;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+  }
+  .phase .number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--brand);
+    line-height: 1;
+  }
+  .phase h3 { font-size: 17px; margin-bottom: 6px; }
+  .phase .method {
+    font-size: 14px;
+    color: var(--text-faint);
+letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+  .phase ul { margin: 12px 0 0; padding-left: 18px; }
+  .phase li { padding: 3px 0; color: var(--text-muted); font-size: 14px; }
+  .phase .success {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: #F0FDF4;
+    border-left: 3px solid var(--success);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .phase .success strong { color: var(--text); }
+
+  /* per-finding validation table */
+  .validation-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+  .validation-table th, .validation-table td {
+    text-align: left;
+    padding: 12px 8px;
+    border-bottom: 1px solid #F1F3F5;
+    vertical-align: top;
+  }
+  .validation-table th {
+    font-size: 14px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .validation-table td.aud { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--text); width: 80px; }
+
+  /* ---------- footer ---------- */
+  footer {
+    padding: 40px 28px;
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 14px;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+
+  /* ---------- confluence link ---------- */
+  .confluence-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: white;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+    box-shadow: var(--shadow);
+  }
+  .confluence-cta:hover {
+    border-color: var(--brand);
+    box-shadow: 0 2px 4px rgba(45,91,227,0.08), 0 8px 24px rgba(45,91,227,0.12);
+    transform: translateY(-1px);
+  }
+  .confluence-cta .ext-arrow {
+    color: var(--text-faint);
+    font-size: 14px;
+    margin-left: 2px;
+  }
+  .confluence-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    margin-left: 14px;
+  }
+
+  /* ---------- hero 2-column layout ---------- */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 56px;
+    margin-top: 28px;
+    align-items: start;
+  }
+  .summary-col { min-width: 0; }
+  .summary-col .lede:first-child { margin-top: 0; }
+  .meta-col {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 22px 24px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-align: left;
+    align-items: flex-start;
+  }
+  .meta-block {
+    width: 100%;
+    text-align: left;
+  }
+  .meta-block .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+margin-bottom: 4px;
+  }
+  .meta-block .value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .meta-block .team-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .meta-team-list {
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .meta-team-list li {
+    padding: 2px 0 2px 12px;
+    font-size: 14px;
+    color: var(--text-muted);
+    position: relative;
+    line-height: 1.45;
+  }
+  .meta-team-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--text-faint);
+  }
+
+  /* materials list inside meta column */
+  .meta-materials {
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .meta-materials li { padding: 0; }
+  .meta-materials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+    line-height: 1.4;
+    transition: color 0.15s;
+  }
+  .meta-materials a:hover { color: #1c3eb8; text-decoration: underline; }
+  .meta-materials .ext {
+    font-size: 14px;
+    color: var(--text-faint);
+  }
+  .meta-materials a:hover .ext { color: var(--brand); }
+
+  /* ---------- Workspace section ---------- */
+  .workspace-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 24px;
+  }
+  .workspace-block { width: 100%; }
+  .workspace-block h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .workspace-block .desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .figma-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-subtle);
+    overflow: hidden;
+  }
+  .figma-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .poc-frame {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(20,22,27,0.04), 0 8px 24px rgba(20,22,27,0.06);
+  }
+  .poc-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .figma-meta {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-faint);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .figma-meta a {
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .figma-meta a:hover { text-decoration: underline; }
+
+  .confluence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .confluence-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    background: white;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+  }
+  .confluence-card:hover {
+    border-color: var(--brand);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(45,91,227,0.06);
+  }
+  .confluence-card .source-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brand);
+letter-spacing: 0.08em;
+  }
+  .confluence-card .source-row .ic {
+    width: 14px; height: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .confluence-card .title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.35;
+  }
+  .confluence-card .snippet {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .confluence-card .footer {
+    font-size: 14px;
+    color: var(--text-faint);
+    margin-top: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Jira backlog */
+  .jira-toolbar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .jira-filter {
+    padding: 5px 11px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .jira-filter:hover { border-color: var(--text-faint); }
+  .jira-filter.active {
+    background: var(--text);
+    color: white;
+    border-color: var(--text);
+  }
+  .jira-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    font-size: 14px;
+    background: white;
+  }
+  .jira-table thead { background: var(--bg-subtle); }
+  .jira-table th {
+    text-align: left;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--border);
+  }
+  .jira-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #F1F3F5;
+    vertical-align: middle;
+  }
+  .jira-table tr:last-child td { border-bottom: none; }
+  .jira-table tr.hidden { display: none; }
+  .jira-table .key {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--text);
+    width: 100px;
+  }
+  .jira-table .key a {
+    color: var(--brand);
+    text-decoration: none;
+  }
+  .jira-table .key a:hover { text-decoration: underline; }
+  .jira-table .summary { color: var(--text); font-weight: 500; }
+  .jira-table .summary .aud-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    background: rgba(124,58,237,0.08);
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .jira-table .summary .aud-link:hover { background: rgba(124,58,237,0.15); }
+  .jira-status, .jira-type, .jira-priority {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .jira-status.open { background: #DBEAFE; color: #1E40AF; }
+  .jira-status.dev { background: #FEF3C7; color: #92400E; }
+  .jira-status.done { background: #D1FAE5; color: #065F46; }
+  .jira-status.parked { background: #E5E7EB; color: #4B5563; }
+  .jira-status.cancelled { background: #E5E7EB; color: #6E6F74; text-decoration: line-through; }
+
+  /* Jira epic card */
+  .epic-card {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--brand);
+    border-radius: 10px;
+    padding: 22px 26px;
+    background: white;
+    margin: 24px 0 8px;
+  }
+  .epic-card .epic-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  .epic-card .epic-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .epic-card .epic-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .epic-card .epic-open {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--brand);
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 6px 14px;
+    border: 1px solid var(--brand);
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .epic-card .epic-open:hover { background: var(--brand-soft); }
+  .epic-card .epic-meta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    font-size: 14px;
+    align-items: center;
+  }
+  .epic-card .epic-status {
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  .epic-card .epic-status.pre-dev {
+    background: #DBEAFE;
+    color: #1E40AF;
+  }
+  .epic-card .epic-priority,
+  .epic-card .epic-assignee,
+  .epic-card .epic-children-count {
+    color: var(--text-faint);
+  }
+  .epic-card .epic-summary {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 760px;
+  }
+  .jira-type { background: var(--bg-subtle); color: var(--text-muted); }
+  .jira-priority.low, .jira-priority.medium { background: var(--bg-subtle); color: var(--text-faint); }
+  .jira-priority.p3 { background: #FEF3C7; color: #78350F; }
+  .jira-assignee {
+    font-size: 14px;
+    color: var(--text-faint);
+  }
+
+  /* ---------- Tacinit button + team modal ---------- */
+  .tacinit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+  }
+  .tacinit-btn:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+    box-shadow: 0 1px 3px rgba(45,91,227,0.08), 0 4px 12px rgba(45,91,227,0.06);
+  }
+  .tacinit-btn:active { transform: translateY(1px); }
+  .tacinit-btn .count {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    background: var(--bg-subtle);
+    padding: 1px 7px;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+  }
+  .tacinit-btn:hover .count { background: var(--brand-soft); color: var(--brand); }
+  .tacinit-btn .eye-icon {
+    color: var(--text-faint);
+    transition: color 0.15s;
+  }
+  .tacinit-btn:hover .eye-icon { color: var(--brand); }
+
+  .team-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20,22,27,0.5);
+    backdrop-filter: blur(3px);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.18s ease-out;
+  }
+  .team-modal-overlay.open { display: flex; opacity: 1; }
+  .team-modal {
+    background: white;
+    border-radius: 14px;
+    max-width: 720px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px 32px 32px;
+    box-shadow: 0 20px 60px rgba(20,22,27,0.25), 0 0 0 1px rgba(20,22,27,0.04);
+    position: relative;
+    transform: scale(0.96);
+    transition: transform 0.18s ease-out;
+  }
+  .team-modal-overlay.open .team-modal { transform: scale(1); }
+  .team-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .team-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .team-modal-header .subtitle {
+    font-size: 14px;
+    color: var(--text-faint);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+  .team-modal-close {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--text-faint);
+    line-height: 1;
+    padding: 0;
+    flex-shrink: 0;
+  }
+  .team-modal-close:hover { background: var(--border); color: var(--text); }
+  .team-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .team-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+  .team-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+  .team-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: white;
+    font-size: 14px;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .team-card .name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  /* ---------- team popover ---------- */
+  .team-popover {
+    position: relative;
+    display: inline-block;
+  }
+  .team-popover summary {
+    list-style: none;
+    cursor: pointer;
+    color: var(--brand);
+    font-weight: 500;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    user-select: none;
+    transition: color 0.15s;
+  }
+  .team-popover summary::-webkit-details-marker { display: none; }
+  .team-popover summary:hover { color: #1c3eb8; }
+  .team-popover summary .chev {
+    font-size: 14px;
+    transition: transform 0.15s;
+    color: var(--text-faint);
+  }
+  .team-popover[open] summary .chev { transform: rotate(180deg); color: var(--brand); }
+  .team-popover-card {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 30;
+    min-width: 220px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(20,22,27,0.08), 0 2px 6px rgba(20,22,27,0.04);
+    padding: 14px 16px;
+    animation: popIn 0.12s ease-out;
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .team-popover-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-faint);
+letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .team-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .team-list li {
+    padding: 5px 0;
+    font-size: 14px;
+    color: var(--text);
+    border-bottom: 1px solid #F1F3F5;
+  }
+  .team-list li:last-child { border-bottom: none; }
+  .team-popover-note {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text-faint);
+    line-height: 1.45;
+  }
+
+  /* ---------- Problem section: asymmetric split with numbered evidence ---------- */
+  .problem-split {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    align-items: start;
+    margin-top: 8px;
+  }
+  .problem-narrative .problem-lede {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 0 0 32px;
+    max-width: 640px;
+  }
+  .problem-block { margin-bottom: 28px; }
+  .problem-block:last-of-type { margin-bottom: 0; }
+  .problem-block .p-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brand);
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .problem-block h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .problem-block p {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .problem-evidence {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 28px;
+    background: var(--bg-subtle);
+    position: sticky;
+    top: 88px;
+  }
+  .problem-evidence .ev-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-faint);
+letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+  .problem-evidence h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    color: var(--text);
+    letter-spacing: -0.005em;
+  }
+  .problem-evidence .ev-subline {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0 0 22px;
+    line-height: 1.5;
+  }
+  .ev-stat {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 12px 0 22px;
+    padding: 18px 20px;
+    background: var(--brand);
+    border-radius: var(--radius-sm);
+    color: white;
+  }
+  .ev-stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 40px;
+    line-height: 0.95;
+    color: white;
+    letter-spacing: -0.03em;
+    flex-shrink: 0;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .ev-stat-caption {
+    font-size: 14px;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.45;
+    flex: 1;
+  }
+  .ev-job-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .ev-job-list li {
+    display: flex;
+    gap: 14px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ev-job-list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .ev-job-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+    width: 36px;
+    text-align: right;
+    margin-top: -2px;
+  }
+  .ev-job-body { flex: 1; min-width: 0; }
+  .ev-job-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .ev-job-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.35;
+  }
+  .ev-job-req {
+    font-size: 14px;
+    color: var(--text-faint);
+    line-height: 1.45;
+  }
+  .ev-pill {
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 700;
+letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+  .ev-pill.blocked { background: #FEE2E2; color: var(--critical); }
+  .ev-pill.partial { background: #FEF3C7; color: #92400E; }
+
+  @media (max-width: 1000px) {
+    .problem-split { grid-template-columns: 1fr; gap: 32px; }
+    .problem-evidence { position: static; }
+  }
+
+  /* ---------- Scope: Option 3 compact modern ---------- */
+  .scope-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 32px;
+    margin-bottom: 40px;
+  }
+  .scope-block { width: 100%; }
+  .scope-block .head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .scope-block .head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brand);
+    background: var(--brand-soft);
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+  .scope-block .head h3 {
+    font-size: 19px;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .scope-block .intro {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0 0 18px;
+    max-width: 720px;
+    line-height: 1.6;
+  }
+
+  /* Objects rows */
+  .obj-list { display: flex; flex-direction: column; }
+  .obj-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 3px 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    align-items: center;
+    transition: background 0.15s;
+  }
+  .obj-row:hover { background: var(--bg-subtle); }
+  .obj-row .nm {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    grid-column: 1; grid-row: 1;
+  }
+  .obj-row .pill {
+    grid-column: 2; grid-row: 1;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 100px;
+letter-spacing: 0.06em;
+  }
+  .obj-row .pill.today {
+    background: var(--bg-subtle);
+    color: var(--text-faint);
+  }
+  .obj-row .pill.new {
+    background: var(--brand-soft);
+    color: var(--brand);
+  }
+  .obj-row .ds {
+    grid-column: 1 / -1; grid-row: 2;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
+  /* Trigger rows */
+  .trig-list { display: flex; flex-direction: column; gap: 2px; }
+  .trig-row {
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 2px 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    align-items: center;
+    transition: background 0.15s;
+  }
+  .trig-row:hover { background: var(--bg-subtle); }
+  .trig-row .idx {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    grid-column: 1; grid-row: 1 / span 2;
+    padding-top: 2px;
+  }
+  .trig-row .nm {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    grid-column: 2; grid-row: 1;
+  }
+  .trig-row .pill {
+    grid-column: 3; grid-row: 1;
+    justify-self: end;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 100px;
+letter-spacing: 0.06em;
+  }
+  .trig-row .pill.v1 {
+    background: var(--brand-soft);
+    color: var(--brand);
+  }
+  .trig-row .pill.v2 {
+    background: var(--bg-subtle);
+    color: var(--text-faint);
+  }
+  .trig-row .ds {
+    font-size: 14px;
+    color: var(--text-muted);
+    grid-column: 2 / -1; grid-row: 2;
+  }
+
+  /* Company flow (full width) */
+  .scope-flow {
+    margin: 0 0 56px;
+    padding: 20px 22px;
+    background: var(--bg-subtle);
+    border-radius: 10px;
+  }
+  .scope-flow .flbl {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+margin-bottom: 12px;
+  }
+  .scope-flow .stages {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 14px;
+  }
+  .scope-flow .stage {
+    padding: 5px 11px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .scope-flow .arrow { color: var(--text-faint); font-size: 14px; }
+  .scope-flow .stage-dd {
+    padding: 10px 16px;
+    background: var(--brand-soft);
+    border-color: var(--brand);
+    border-radius: 12px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    text-align: center;
+  }
+  .scope-flow .stage-dd strong {
+    color: var(--brand);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .scope-flow .stage-dd em {
+    font-style: normal;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .scope-flow .flow-example-label {
+    font-size: 14px;
+    color: var(--text-faint);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    margin: 18px 0 8px;
+  }
+
+  /* Before / after flow comparison */
+  .flow-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 36px 0;
+  }
+  .flow-compare-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    flex-direction: column;
+  }
+  .flow-compare-label {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .flow-compare-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+  .flow-compare-tag.before {
+    background: var(--bg-subtle);
+    color: var(--text-faint);
+  }
+  .flow-compare-tag.after {
+    background: var(--brand-soft);
+    color: var(--brand);
+  }
+  .flow-compare-caption {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .flow-compare-image {
+    background: var(--bg-subtle);
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 240px;
+    position: relative;
+  }
+  .flow-compare-image img {
+    max-width: 100%;
+    max-height: 280px;
+    height: auto;
+    display: block;
+  }
+  .flow-compare-image img.broken { display: none; }
+  .flow-compare-image:has(img:not(.broken)) .flow-compare-placeholder { display: none; }
+  .flow-compare-placeholder {
+    text-align: center;
+    color: var(--text-faint);
+  }
+  .flow-compare-placeholder .filename {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  @media (max-width: 800px) {
+    .flow-compare { grid-template-columns: 1fr; }
+  }
+
+  /* Spec section — trigger attribute tables */
+  .spec-trigger {
+    margin-top: 40px;
+    margin-bottom: 36px;
+  }
+  .spec-trigger:first-of-type { margin-top: 24px; }
+  .spec-trigger-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .spec-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brand);
+    background: var(--brand-soft);
+    padding: 6px 11px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    line-height: 1;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+  .spec-trigger-head h3 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .spec-trigger-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-faint);
+    margin: 0;
+  }
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+  }
+  .spec-table thead { background: var(--bg-subtle); }
+  .spec-table th {
+    text-align: left;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border);
+  }
+  .spec-table td {
+    padding: 13px 14px;
+    border-bottom: 1px solid #F1F3F5;
+    vertical-align: top;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table td.attr {
+    font-weight: 600;
+    color: var(--text);
+    width: 22%;
+  }
+  .spec-table td.type {
+    width: 16%;
+    color: var(--text-muted);
+  }
+  .spec-table td.dep {
+    width: 22%;
+    color: var(--text-faint);
+  }
+  .spec-req-pill {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .spec-req-pill.yes {
+    background: rgba(22,163,74,0.1);
+    color: var(--success);
+  }
+  .spec-req-pill.conditional {
+    background: #FEF3C7;
+    color: #92400E;
+  }
+  .spec-req-pill.no {
+    background: var(--bg-subtle);
+    color: var(--text-faint);
+  }
+
+  .spec-logic-summary {
+    margin-top: 36px;
+    padding: 22px 26px;
+    background: var(--bg-subtle);
+    border-radius: 12px;
+    border-left: 3px solid var(--brand);
+  }
+  .spec-logic-summary h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    margin: 0 0 12px;
+  }
+  .spec-logic-summary ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+  .spec-logic-summary li {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding: 4px 0;
+  }
+  .spec-logic-summary strong { color: var(--text); }
+
+  /* Verticals chip grid */
+  .scope-vert-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 18px;
+  }
+  .vchip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg-subtle);
+  }
+  .vchip.priority {
+    background: var(--brand-soft);
+    color: var(--text);
+    font-weight: 500;
+  }
+  .vchip.priority::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--brand);
+    flex-shrink: 0;
+  }
+  .vchip .hipaa {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--warn);
+    letter-spacing: 0.06em;
+  }
+  .scope-vert-note {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--text-faint);
+    line-height: 1.55;
+  }
+  .scope-vert-note strong { color: var(--text); }
+
+  /* v1 release columns */
+  .scope-v1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 18px;
+  }
+  .scope-v1 .col {
+    padding-left: 16px;
+  }
+  .scope-v1 .col.in { border-left: 2px solid var(--success); }
+  .scope-v1 .col.out { border-left: 2px solid var(--low); }
+  .scope-v1 h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 14px;
+    color: var(--text);
+  }
+  .scope-v1 .grp {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+margin: 16px 0 6px;
+  }
+  .scope-v1 .grp:first-of-type { margin-top: 0; }
+  .scope-v1 ul { margin: 0; padding: 0; list-style: none; }
+  .scope-v1 li {
+    padding: 6px 0;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* v1 release — redesigned cards */
+  .v1-counts {
+    display: flex;
+    gap: 10px;
+    margin: 22px 0 18px;
+  }
+  .v1-count-pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 100px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .v1-count-pill strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 17px;
+    color: var(--text);
+    font-weight: 700;
+  }
+  .v1-count-pill.in { background: rgba(22,163,74,0.08); }
+  .v1-count-pill.in strong { color: var(--success); }
+  .v1-count-pill.out { background: var(--bg-subtle); }
+  .v1-count-pill.out strong { color: var(--text-faint); }
+
+  .v1-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .v1-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+  }
+  .v1-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .v1-card-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.005em;
+  }
+  .v1-card-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--success);
+    background: rgba(22,163,74,0.1);
+    padding: 2px 9px;
+    border-radius: 100px;
+  }
+  .v1-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .v1-list li {
+    position: relative;
+    padding: 4px 0 4px 22px;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.45;
+  }
+  .v1-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 14px;
+    height: 14px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><path d='M3 7l3 3 5-5' stroke='%2316A34A' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+  }
+
+  .v1-deferred {
+    margin-top: 20px;
+    padding: 18px 22px;
+    background: var(--bg-subtle);
+    border-radius: 12px;
+    border-left: 3px solid var(--low);
+  }
+  .v1-deferred-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .v1-deferred-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+  .v1-deferred-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    background: white;
+    padding: 1px 8px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+  }
+  .v1-deferred-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+  }
+  .v1-deferred-list li {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    position: relative;
+    padding-left: 12px;
+  }
+  .v1-deferred-list li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 9px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--text-faint);
+  }
+  @media (max-width: 800px) {
+    .v1-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 1000px) {
+    .scope-row-2col, .scope-v1 { grid-template-columns: 1fr; gap: 32px; }
+    .scope-vert-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ---------- entity expansion ---------- */
+  .entity-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .entity-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    background: white;
+    text-align: center;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .entity-card.current { background: var(--bg-subtle); border-style: solid; }
+  .entity-card.new { border: 1px dashed var(--brand); background: var(--brand-soft); }
+  .entity-card .glyph {
+    font-size: 24px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .entity-card .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+margin-bottom: 4px;
+  }
+  .entity-card.new .label { color: var(--brand); }
+  .entity-card .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .entity-card .note {
+    font-size: 14px;
+    color: var(--text-faint);
+    line-height: 1.4;
+  }
+
+  .trigger-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .trigger-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    background: white;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+  }
+  .trigger-item .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brand);
+    background: var(--brand-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .trigger-item .body { flex: 1; }
+  .trigger-item .label {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .trigger-item .note {
+    font-size: 14px;
+    color: var(--text-faint);
+  }
+
+  .company-flow {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .company-flow .title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .company-flow .stages {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 14px;
+  }
+  .company-flow .stage {
+    padding: 6px 12px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .company-flow .arrow {
+    color: var(--text-faint);
+    font-size: 14px;
+  }
+
+  /* ---------- audience & verticals ---------- */
+  .audience-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 18px;
+    align-items: stretch;
+  }
+  .audience-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    background: white;
+    border-left: 3px solid var(--brand);
+    display: flex;
+    flex-direction: column;
+  }
+  .audience-card.template { border-left-color: var(--accent); }
+  .audience-card.end-operator { border-left-color: var(--low); }
+  .audience-card .role {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+margin-bottom: 6px;
+  }
+  .audience-card .name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .audience-card .desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .audience-shift-quote {
+    margin: 24px 0 0;
+    padding: 18px 22px;
+    border-left: 3px solid var(--brand);
+    background: var(--brand-soft);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 14px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .audience-shift-quote .source {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-size: 14px;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+  }
+
+  /* verticals table */
+  .verticals-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .verticals-table thead {
+    background: var(--bg-subtle);
+  }
+  .verticals-table th {
+    text-align: left;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+border-bottom: 1px solid var(--border);
+  }
+  .verticals-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #F1F3F5;
+    color: var(--text-muted);
+    vertical-align: middle;
+  }
+  .verticals-table tr:last-child td { border-bottom: none; }
+  .verticals-table tr.priority {
+    background: linear-gradient(90deg, rgba(45,91,227,0.04) 0%, rgba(45,91,227,0) 100%);
+  }
+  .verticals-table tr.priority td.name { font-weight: 600; color: var(--text); }
+  .verticals-table td.rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--text-faint);
+    width: 36px;
+  }
+  .verticals-table td.name { width: 36%; }
+  .priority-pill {
+    display: inline-block;
+    padding: 2px 7px;
+    background: var(--brand);
+    color: white;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+white-space: nowrap;
+  }
+  .priority-pill.healthcare { background: var(--warn); }
+
+  .vertical-callouts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .callout {
+    padding: 16px 18px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .callout.info {
+    background: #FEF3C7;
+    border-left: 3px solid var(--warn);
+    color: #78350F;
+  }
+  .callout.warn {
+    background: var(--bg-subtle);
+    border-left: 3px solid var(--low);
+    color: var(--text-muted);
+  }
+  .callout .title {
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: inherit;
+  }
+
+  .source-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    padding: 4px 10px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 14px;
+    color: var(--text-faint);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .source-tag:hover { color: var(--brand); border-color: var(--brand); }
+  .source-tag .src-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--brand);
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px) {
+    nav.top ul { display: none; }
+    h1 { font-size: 34px; }
+    h2 { font-size: 24px; }
+    .grid-2, .findings-grid, .kpi-row, .users-row, .audience-row {
+      grid-template-columns: 1fr;
+    }
+    .phase { grid-template-columns: 1fr; }
+    .phase .number { font-size: 24px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  /* ---------- print ---------- */
+  @media print {
+    nav.top { position: static; box-shadow: none; }
+    section { page-break-inside: avoid; padding: 40px 0; }
+    .finding-card { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="inner">
+    <div class="brand"><span class="badge">PRD</span>Decision Diamond</div>
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#scope">Scope</a></li>
+      <li><a href="#spec">Spec</a></li>
+      <li><a href="#poc">POC</a></li>
+      <li><a href="#findings">UX audit</a></li>
+      <li><a href="#metrics">Success Metrics</a></li>
+      <li><a href="#testing">Testing Plan</a></li>
+      <li><a href="#jira-tickets">Jira tickets</a></li>
+    </ul>
+    <div class="meta">v1 · 2026-05-28</div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ====== HERO / OVERVIEW ====== -->
+  <section id="overview" class="hero">
+    <div class="pill"><span class="dot"></span>PRD prep · object expansion + UX audits</div>
+    <h1>Decision Diamond 2.0 - Object expansions</h1>
+    <div class="hero-grid">
+      <div class="summary-col">
+        <p class="lede">Today the Decision Diamond evaluates only <strong>Contact</strong>, forcing customers to stitch automations and tag workarounds together to handle work that lives on deals, invoices, and appointments. This project expands it to evaluate those objects alongside Contact, so customers can configure flows like estimate follow-ups, post-job reviews, no-show handling, and deal-value routing in a single node.</p>
+        <p class="lede" style="margin-top:-12px;">Phase I is our first batch to validate this concept, shipping four priority trigger sequences: <strong>Product is purchased, Appointments, Pipeline stage is moved,</strong> and <strong>Quote status</strong>. Remaining sequences will follow as prioritized.</p>
+        <p class="lede" style="margin-top:-12px;">A new in-context <strong>AI assistant</strong> inside the Decision Diamond helps customers translate intent into rules. We&rsquo;re starting here because it&rsquo;s where customers spend the most effort, setting up our broader move toward an AI-oriented product.</p>
+        <p class="lede" style="margin-top:-12px;">In parallel, a <strong>UX audit</strong> of the current Decision Diamond surfaces 8 findings, including critical bugs that affect the success of 2.0. Some fixes apply to the automation builder broadly; others to Decision Diamond specifically. PM leads prioritization, and several improvements will ship ahead of the core work.</p>
+      </div>
+      <aside class="meta-col">
+        <div class="meta-block">
+          <div class="label">Team</div>
+          <div class="value">
+            <button type="button" class="tacinit-btn" id="tacinit-btn" aria-haspopup="dialog" aria-controls="team-modal-overlay">
+              <span>Tacinit</span>
+              <span class="count">12</span>
+              <svg class="eye-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="label">Product manager</div>
+          <div class="value">Jeremiah Weise</div>
+        </div>
+        <div class="meta-block">
+          <div class="label">Product designer</div>
+          <div class="value">Jialing Chen</div>
+        </div>
+        <div class="meta-block">
+          <div class="label">Engineer manager</div>
+          <div class="value">Lizette Sanglay</div>
+        </div>
+        <div class="meta-block">
+          <div class="label">Stage</div>
+          <div class="value">PRD prep → engineering scoping</div>
+        </div>
+        <div class="meta-block">
+          <div class="label">Target release</div>
+          <div class="value">TBD</div>
+        </div>
+        <div class="meta-block">
+          <div class="label">Materials</div>
+          <ul class="meta-materials">
+            <li>
+              <a href="https://thryv.atlassian.net/wiki/x/PwBx-w" target="_blank" rel="noopener">Automation Builder - ICP Narrowing</a>
+            </li>
+            <li>
+              <a href="https://thryv.atlassian.net/wiki/x/RIBnBAE" target="_blank" rel="noopener">Decision diamond 2.0 concepts</a>
+            </li>
+            <li>
+              <a href="https://www.figma.com/design/pLVWsgZAqwC5OkMLy1osY0/-Automation-builder--Decision-diamond-2.0" target="_blank" rel="noopener">Figma: Automation builder, Decision Diamond 2.0</a>
+            </li>
+            <li>
+              <a href="https://thryv.atlassian.net/browse/TP-10331" target="_blank" rel="noopener">Jira epic: TP-10331 · Decision Diamonds migration</a>
+            </li>
+            <li>
+              <a href="https://beaver1109.github.io/decision-diamond-poc-v1/" target="_blank" rel="noopener">Interactive POC: Decision Diamond 2.0 v1<span class="ext" aria-hidden="true"> ↗</span></a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <div style="margin-top:48px;">
+      <h3 style="font-size:17px;margin-bottom:4px;">Confluence pages</h3>
+      <div style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">Source docs referenced throughout this page. Click to open in Confluence.</div>
+      <div class="confluence-grid">
+        <a class="confluence-card" href="https://thryv.atlassian.net/wiki/x/PwBx-w" target="_blank" rel="noopener">
+          <div class="source-row">
+            <span class="ic">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2 17c-.2.4 0 .9.4 1l4 1.6c.4.2.9 0 1.1-.4 1.4-3 2.9-2.7 5.4-1.5l4 1.9c.4.2.9 0 1.1-.4l1.9-4.4c.2-.4 0-.9-.4-1.1-.9-.4-2.7-1.3-4.3-2.1-5.8-2.8-10.7-2.6-13 3.4z" fill="#2D5BE3"/>
+              </svg>
+            </span>
+            Confluence page
+          </div>
+          <div class="title">Automation Builder &mdash; ICP Narrowing</div>
+          <div class="snippet">ICP scope and 12-vertical validation context for the Decision Diamond expansion work.</div>
+          <div class="footer">
+            <span>thryv.atlassian.net</span>
+            <span>Open ↗</span>
+          </div>
+        </a>
+        <a class="confluence-card" href="https://thryv.atlassian.net/wiki/x/RIBnBAE" target="_blank" rel="noopener">
+          <div class="source-row">
+            <span class="ic">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2 17c-.2.4 0 .9.4 1l4 1.6c.4.2.9 0 1.1-.4 1.4-3 2.9-2.7 5.4-1.5l4 1.9c.4.2.9 0 1.1-.4l1.9-4.4c.2-.4 0-.9-.4-1.1-.9-.4-2.7-1.3-4.3-2.1-5.8-2.8-10.7-2.6-13 3.4z" fill="#2D5BE3"/>
+              </svg>
+            </span>
+            Confluence page
+          </div>
+          <div class="title">Decision diamond 2.0 concepts</div>
+          <div class="snippet">Object expansion strategy, vertical use cases, audience framing, and trigger entity attribute reference.</div>
+          <div class="footer">
+            <span>thryv.atlassian.net · updated May 26, 2026</span>
+            <span>Open ↗</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Problem -->
+    <div style="margin-top:64px;">
+      <div class="eyebrow">Problem</div>
+      <h2>What&rsquo;s blocking customers today</h2>
+    </div>
+
+    <div class="problem-split">
+      <div class="problem-narrative">
+        <p class="problem-lede">Decision Diamond is constrained on two fronts. The engine doesn&rsquo;t see the objects customers actually work with, and the current configuration has discoverability issues and usability gaps. Together they erode customer trust and cap what we can deliver.</p>
+
+        <div class="problem-block">
+          <div class="p-eyebrow">01 / Engine</div>
+          <h3>Object blindness</h3>
+          <p>Local service businesses operate on deals, jobs, appointments, and invoices, but the automation engine is contact-centric. Triggers, conditions, and actions all assume Contact is the primary object. The vertical use cases template builders need to ship (estimate follow-ups, post-job review requests, no-show handling, deal-value routing) aren&rsquo;t possible today without workarounds: multiple automations, complex tag chains, and manual intervention.</p>
+        </div>
+
+        <div class="problem-block">
+          <div class="p-eyebrow">02 / Configuration UX</div>
+          <h3>Discoverability and usability gaps</h3>
+          <p>The current Decision Diamond has layered issues uncovered in the UX audit. Discoverability gaps make key actions and states hard to find. Usability problems force valid configurations into clunkier paths than necessary. Together, the audit findings block users from configuring, validating, and publishing branching logic with confidence.</p>
+        </div>
+
+        <a class="source-tag" href="https://thryv.atlassian.net/wiki/x/RIBnBAE" target="_blank" rel="noopener">
+          <span class="src-dot"></span>
+          Source: Decision diamond 2.0 concepts · Confluence
+        </a>
+      </div>
+
+      <aside class="problem-evidence">
+        <div class="ev-label">Evidence</div>
+        <div class="ev-stat">
+          <span class="ev-stat-num">0/6</span>
+          <span class="ev-stat-caption">Jobs that can be done in a straightforward configuration today.</span>
+        </div>
+
+        <ul class="ev-job-list">
+          <li>
+            <span class="ev-job-num">01</span>
+            <div class="ev-job-body">
+              <div class="ev-job-row">
+                <div class="ev-job-name">Lead follow-up based on deal value</div>
+                <span class="ev-pill blocked">Blocked</span>
+              </div>
+              <div class="ev-job-req">Diamond evaluates deal amount + stage</div>
+            </div>
+          </li>
+          <li>
+            <span class="ev-job-num">02</span>
+            <div class="ev-job-body">
+              <div class="ev-job-row">
+                <div class="ev-job-name">Post-job review request</div>
+                <span class="ev-pill partial">Partial</span>
+              </div>
+              <div class="ev-job-req">Trigger on invoice or deal completion</div>
+            </div>
+          </li>
+          <li>
+            <span class="ev-job-num">03</span>
+            <div class="ev-job-body">
+              <div class="ev-job-row">
+                <div class="ev-job-name">No-show handling</div>
+                <span class="ev-pill blocked">Blocked</span>
+              </div>
+              <div class="ev-job-req">Trigger on appointment status + deal context</div>
+            </div>
+          </li>
+          <li>
+            <span class="ev-job-num">04</span>
+            <div class="ev-job-body">
+              <div class="ev-job-row">
+                <div class="ev-job-name">Estimate expiration follow-up</div>
+                <span class="ev-pill blocked">Blocked</span>
+              </div>
+              <div class="ev-job-req">Diamond evaluates estimate age + status</div>
+            </div>
+          </li>
+          <li>
+            <span class="ev-job-num">05</span>
+            <div class="ev-job-body">
+              <div class="ev-job-row">
+                <div class="ev-job-name">High-value deal routing</div>
+                <span class="ev-pill blocked">Blocked</span>
+              </div>
+              <div class="ev-job-req">Diamond evaluates deal value, routes to sequence</div>
+            </div>
+          </li>
+          <li>
+            <span class="ev-job-num">06</span>
+            <div class="ev-job-body">
+              <div class="ev-job-row">
+                <div class="ev-job-name">Repeat business campaigns</div>
+                <span class="ev-pill blocked">Blocked</span>
+              </div>
+              <div class="ev-job-req">Diamond evaluates order or transaction history</div>
+            </div>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ====== PRODUCT SCOPE ====== -->
+  <section id="scope">
+    <div class="eyebrow">Product scope</div>
+    <h2>What we&rsquo;re building and who it&rsquo;s for</h2>
+    <p class="lede">Decision Diamond evaluates one object today: <strong>Contact</strong>. This project expands it to evaluate <strong>deals, invoices, appointments,</strong> and <strong>companies</strong>, the objects local service businesses actually run their work on. A second workstream addresses the UX audit of the current Decision Diamond so the expanded experience is usable end-to-end.</p>
+
+    <!-- Audience -->
+    <h3 style="margin-top:40px;font-size:20px;font-weight:700;letter-spacing:-0.01em;">Audience</h3>
+    <p style="color:var(--text-muted);max-width:760px;margin-bottom:0;">Three audiences in priority order: the ICP we&rsquo;re serving, the people who build templates on their behalf, and the operators inside those accounts who edit and validate what gets shipped to them.</p>
+
+    <div class="audience-row" style="margin-top:18px;margin-bottom:24px;">
+      <div class="audience-card">
+        <div class="role">Primary ICP · validated</div>
+        <div class="name">Local service businesses</div>
+        <div class="desc">12 verticals confirmed by Tyler Garns and product marketing on April 13, 2026. Field service and trades dominate (HVAC, plumbing, roofing, cleaning, pest control). Healthcare is the outlier with HIPAA and different tech maturity. These users think in deals, jobs, appointments, and invoices, not in tags applied to contacts.</div>
+      </div>
+      <div class="audience-card template">
+        <div class="role">Direct configurators</div>
+        <div class="name">Template builders</div>
+        <div class="desc">Tyler&rsquo;s team, onboarding coaches, and partners. They build the campaigns that get launched on a customer&rsquo;s first onboarding call, so they configure Decision Diamonds repeatedly and feel every UX gap directly.</div>
+      </div>
+      <div class="audience-card end-operator">
+        <div class="role">Downstream</div>
+        <div class="name">End operators inside ICP accounts</div>
+        <div class="desc">CRM admins, marketing operators, and small-business owners who view, edit, and validate templated automations in their account. They rely on Test, Save, and clear branch labeling to trust what they&rsquo;re publishing, which are exactly the gaps the audit surfaces.</div>
+      </div>
+    </div>
+
+    <div class="scope-row-2col">
+      <div class="scope-block">
+        <div class="head">
+          <span class="num">01</span>
+          <h3>Triggers</h3>
+        </div>
+        <p class="intro">Five priority sequences from the May 4 Vision Alignment. Phase I ships the first four; Deal stage moved follows as prioritized.</p>
+        <div class="trig-list">
+          <div class="trig-row"><span class="idx">01</span><span class="nm">Quote status</span><span class="pill v1">New · V1</span><span class="ds">Sent, Viewed, Accepted</span></div>
+          <div class="trig-row"><span class="idx">02</span><span class="nm">Pipeline stage moved</span><span class="pill v1">New · V1</span><span class="ds">When deal moves in or out of a stage</span></div>
+          <div class="trig-row"><span class="idx">03</span><span class="nm">Appointment</span><span class="pill v1">New · V1</span><span class="ds">Schedules, reschedules, cancels</span></div>
+          <div class="trig-row"><span class="idx">04</span><span class="nm">Product purchased</span><span class="pill v1">New · V1</span><span class="ds">Specific or any purchase, optional payment filter</span></div>
+          <div class="trig-row"><span class="idx">05</span><span class="nm">Deal stage moved</span><span class="pill v2">V2</span><span class="ds">Migrated from easy sequence to advanced</span></div>
+        </div>
+      </div>
+
+      <div class="scope-block">
+        <div class="head">
+          <span class="num">02</span>
+          <h3>Objects</h3>
+        </div>
+        <p class="intro">Decision Diamond starts evaluating four new objects on top of Contact, so customers can branch on the data their business actually runs on.</p>
+        <div class="obj-list">
+          <div class="obj-row">
+            <span class="nm">Contact</span>
+            <span class="pill today">Today</span>
+            <span class="ds">The only object Decision Diamond evaluates today.</span>
+          </div>
+          <div class="obj-row">
+            <span class="nm">Deals</span>
+            <span class="pill new">New · v1</span>
+            <span class="ds">Stage, value, age, ownership.</span>
+          </div>
+          <div class="obj-row">
+            <span class="nm">Invoices</span>
+            <span class="pill new">New · v1</span>
+            <span class="ds">Status, payment type, amount.</span>
+          </div>
+          <div class="obj-row">
+            <span class="nm">Appointments</span>
+            <span class="pill new">New · v1</span>
+            <span class="ds">Type, status, schedule events.</span>
+          </div>
+          <div class="obj-row">
+            <span class="nm">Companies</span>
+            <span class="pill new">New · v1</span>
+            <span class="ds">Sales pipeline progression.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scope-flow">
+      <div class="flbl">New flow · Decision Diamond between sequences</div>
+      <div class="stages">
+        <span class="stage">Sequence</span>
+        <span class="arrow">→</span>
+        <span class="stage stage-dd">
+          <strong>Decision Diamond</strong>
+          <em>Contact + object attributes</em>
+        </span>
+        <span class="arrow">→</span>
+        <span class="stage">Sequence</span>
+      </div>
+
+      <div class="flow-example-label">Example</div>
+      <div class="stages">
+        <span class="stage">Product is purchased</span>
+        <span class="arrow">→</span>
+        <span class="stage stage-dd">
+          <strong>Decision Diamond</strong>
+          <em>Contact / Deal value / Deal completion time…</em>
+        </span>
+        <span class="arrow">→</span>
+        <span class="stage">Sequence</span>
+      </div>
+    </div>
+
+    <div class="flow-compare">
+      <div class="flow-compare-card before">
+        <div class="flow-compare-label">
+          <span class="flow-compare-tag before">Before</span>
+          <span class="flow-compare-caption">Single Decision Diamond, contact-only branching</span>
+        </div>
+        <div class="flow-compare-image">
+          <img src="images/flow-before.png" alt="Single Decision Diamond in current state" onerror="this.classList.add('broken')">
+          <div class="flow-compare-placeholder">
+            <div class="filename">images/flow-before.png</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-compare-card after">
+        <div class="flow-compare-label">
+          <span class="flow-compare-tag after">After</span>
+          <span class="flow-compare-caption">Decision Diamond branches across deals, invoices, appointments</span>
+        </div>
+        <div class="flow-compare-image">
+          <img src="images/flow-after.png" alt="Decision Diamond expanded with multiple object branches" onerror="this.classList.add('broken')">
+          <div class="flow-compare-placeholder">
+            <div class="filename">images/flow-after.png</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scope-block">
+      <div class="head">
+        <span class="num">03</span>
+        <h3>Verticals</h3>
+      </div>
+      <p class="intro">12 validated verticals. 6 prioritized. Field service and trades dominate. Healthcare runs in a separate compliance lane.</p>
+      <div class="scope-vert-grid">
+        <span class="vchip priority">Home Services / HVAC</span>
+        <span class="vchip priority">Roofers</span>
+        <span class="vchip priority">Plumbers</span>
+        <span class="vchip priority">Cleaners</span>
+        <span class="vchip priority">Healthcare<span class="hipaa">HIPAA</span></span>
+        <span class="vchip priority">Pest Control</span>
+        <span class="vchip">Auto Repair</span>
+        <span class="vchip">Veterinary</span>
+        <span class="vchip">Septic Tank &amp; Systems</span>
+        <span class="vchip">Tree &amp; Shrub Services</span>
+        <span class="vchip">Asphalt &amp; Paving</span>
+        <span class="vchip">Moving &amp; Storage</span>
+      </div>
+      <div class="scope-vert-note">
+        <strong>Out of scope:</strong> Salon, real estate, coaches, consultants, and e-commerce were referenced previously but excluded from the validated set.
+      </div>
+    </div>
+
+    <div class="scope-block" style="margin-top:56px;">
+      <div class="head">
+        <span class="num">04</span>
+        <h3>v1 release</h3>
+      </div>
+      <p class="intro">What ships in v1 across both workstreams.</p>
+
+      <div class="v1-counts">
+        <span class="v1-count-pill in"><strong>10</strong> shipping</span>
+      </div>
+
+      <div class="v1-grid">
+        <div class="v1-card">
+          <div class="v1-card-head">
+            <span class="v1-card-label">Object expansions</span>
+            <span class="v1-card-count">3</span>
+          </div>
+          <ul class="v1-list">
+            <li>4 priority triggers: Product is purchased, Appointments, Quote status, Pipeline stage moved</li>
+            <li>Branch on Deals, Invoices, and Appointments</li>
+            <li>Config panel adapts to the selected object</li>
+          </ul>
+        </div>
+        <div class="v1-card">
+          <div class="v1-card-head">
+            <span class="v1-card-label">UX audit fixes</span>
+            <span class="v1-card-count">7</span>
+          </div>
+          <ul class="v1-list">
+            <li>Save button with clear states</li>
+            <li>Panel heading adapts per object type</li>
+            <li>Default to 1 rule set, add more on demand</li>
+            <li>Auto-labeled branches so users can tell them apart</li>
+            <li>Branch labels visible on the automation canvas</li>
+            <li>Status color aligned with system conventions</li>
+            <li>Responsive layout across screen sizes</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== SPEC ====== -->
+  <section id="spec">
+    <div class="eyebrow">Spec</div>
+    <h2>Complete trigger entity attribute reference</h2>
+    <p class="lede">Detailed attribute reference for each priority trigger sequence. Source of truth for grooming with PM and engineering.</p>
+
+    <div class="spec-trigger">
+      <div class="spec-trigger-head">
+        <span class="spec-num">1</span>
+        <div>
+          <h3>Product is purchased</h3>
+          <p class="spec-trigger-tagline">&ldquo;When a purchase is made&rdquo;</p>
+        </div>
+      </div>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Required</th>
+            <th>Type</th>
+            <th>Options / behavior</th>
+            <th>Dependency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="attr">Select purchase type</td>
+            <td><span class="spec-req-pill yes">Yes</span></td>
+            <td class="type">Single-select</td>
+            <td><strong>Product</strong> (specific product) or <strong>Any purchase</strong> (any product).</td>
+            <td class="dep">Top-level driver</td>
+          </tr>
+          <tr>
+            <td class="attr">Select products</td>
+            <td><span class="spec-req-pill conditional">Conditional</span></td>
+            <td class="type">Multi-select with categories</td>
+            <td>Full product catalog. Each item shows its category.</td>
+            <td class="dep">Only appears when purchase type = Product. Hidden when Any purchase.</td>
+          </tr>
+          <tr>
+            <td class="attr">Payment type</td>
+            <td><span class="spec-req-pill no">Optional</span></td>
+            <td class="type">Multi-select</td>
+            <td>Credit Card (charge now), Credit Card (manual), Check, Cash, Money Order, Adjustment, Include $0 invoices, Any payment type.</td>
+            <td class="dep">Always visible</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="spec-trigger">
+      <div class="spec-trigger-head">
+        <span class="spec-num">2</span>
+        <div>
+          <h3>Quote status</h3>
+          <p class="spec-trigger-tagline">&ldquo;Trigger when a quote changes status&rdquo;</p>
+        </div>
+      </div>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Required</th>
+            <th>Type</th>
+            <th>Options / behavior</th>
+            <th>Dependency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="attr">Trigger when quote is…</td>
+            <td><span class="spec-req-pill yes">Yes</span></td>
+            <td class="type">Single-select</td>
+            <td><strong>Sent</strong>, <strong>Viewed</strong>, <strong>Accepted</strong> (payment options unavailable).</td>
+            <td class="dep">None. Only attribute on this trigger.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="spec-trigger">
+      <div class="spec-trigger-head">
+        <span class="spec-num">3</span>
+        <div>
+          <h3>Pipeline stage is moved</h3>
+          <p class="spec-trigger-tagline">&ldquo;Pipeline stage move&rdquo;</p>
+        </div>
+      </div>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Required</th>
+            <th>Type</th>
+            <th>Options / behavior</th>
+            <th>Dependency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="attr">When moving</td>
+            <td><span class="spec-req-pill yes">Yes</span></td>
+            <td class="type">Single-select</td>
+            <td><strong>Into</strong> (deal moves into selected stage) or <strong>Out of</strong> (deal moves out of selected stage).</td>
+            <td class="dep">Top-level direction selector</td>
+          </tr>
+          <tr>
+            <td class="attr">Pipeline</td>
+            <td><span class="spec-req-pill yes">Yes</span></td>
+            <td class="type">Single-select</td>
+            <td>List of all configured pipelines in the account.</td>
+            <td class="dep">Independent, but its value drives the Stage options.</td>
+          </tr>
+          <tr>
+            <td class="attr">Stage</td>
+            <td><span class="spec-req-pill yes">Yes</span></td>
+            <td class="type">Single-select</td>
+            <td>List of all stages belonging to the selected pipeline.</td>
+            <td class="dep">Dependent on Pipeline. Stages shown change with pipeline selection.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="spec-trigger">
+      <div class="spec-trigger-head">
+        <span class="spec-num">4</span>
+        <div>
+          <h3>Appointment</h3>
+          <p class="spec-trigger-tagline">&ldquo;When a contact schedules, reschedules, or cancels&rdquo;</p>
+        </div>
+      </div>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Required</th>
+            <th>Type</th>
+            <th>Options / behavior</th>
+            <th>Dependency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="attr">When a contact</td>
+            <td><span class="spec-req-pill yes">Yes</span></td>
+            <td class="type">Single-select</td>
+            <td><strong>Schedules</strong>, <strong>Reschedules</strong>, <strong>Cancels</strong>.</td>
+            <td class="dep">Top-level event selector</td>
+          </tr>
+          <tr>
+            <td class="attr">Select an appointment type</td>
+            <td><span class="spec-req-pill yes">Yes</span></td>
+            <td class="type">Single-select</td>
+            <td>List of all appointment types configured in the account, each shown with duration.</td>
+            <td class="dep">Always shown. Same field under all three When-a-contact options.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="spec-logic-summary">
+      <h3>Conditional logic summary</h3>
+      <ul>
+        <li><strong>Product is purchased</strong>: the &ldquo;Select products&rdquo; picker only appears when &ldquo;Select purchase type&rdquo; = Product. Choosing &ldquo;Any purchase&rdquo; removes it while Payment type stays visible.</li>
+        <li><strong>Pipeline stage is moved</strong>: the &ldquo;Stage&rdquo; dropdown is populated dynamically based on the selected &ldquo;Pipeline&rdquo;. Changing pipeline replaces the stage list.</li>
+        <li><strong>Quote status</strong> and <strong>Appointment</strong>: no conditional show/hide. All fields visible regardless of upper drop-down values.</li>
+      </ul>
+    </div>
+
+    <a class="source-tag" href="https://thryv.atlassian.net/wiki/spaces/~63bf451d0913ada386aafd07/pages/4368859204/Decision+diamond+2.0+concepts#Complete-Trigger-Entity-Attribute-Reference" target="_blank" rel="noopener" style="margin-top:28px;">
+      <span class="src-dot"></span>
+      Source: Decision diamond 2.0 concepts · Confluence
+    </a>
+  </section>
+
+  <!-- ====== POC ====== -->
+  <section id="poc">
+    <div class="eyebrow">POC</div>
+    <h2>Interactive proof of concept</h2>
+    <p class="lede">Live clickable prototype of the Decision Diamond 2.0 configuration experience. Interact with it directly below, or open in a new tab for full-screen review.</p>
+
+    <div class="workspace-grid">
+
+      <!-- Live interactive prototype -->
+      <div class="workspace-block">
+        <h3>Decision Diamond 2.0 · v1 prototype</h3>
+        <div class="desc">Hosted on GitHub Pages. Click through the flow as if it were a real product.</div>
+        <div class="poc-frame">
+          <iframe
+            src="https://beaver1109.github.io/decision-diamond-poc-v1/"
+            allowfullscreen
+            loading="lazy"
+            title="Decision Diamond 2.0 interactive prototype">
+          </iframe>
+        </div>
+        <div class="figma-meta">
+          <span>Host: <code>beaver1109.github.io/decision-diamond-poc-v1</code></span>
+          <a href="https://beaver1109.github.io/decision-diamond-poc-v1/" target="_blank" rel="noopener">Open in new tab ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== SUMMARY (AT-A-GLANCE TABLE) ====== -->
+  <section id="findings">
+    <div class="eyebrow">UX audit workstream · current Decision Diamond</div>
+    <h2>Trust-layer fixes — eight findings on the existing DD</h2>
+    <p class="lede">A parallel workstream to entity expansion: a UX audit of the <strong>current</strong> Decision Diamond. These findings exist independent of the new entities being added — they&rsquo;re structural gaps in today&rsquo;s configuration UX that will surface louder once DD is evaluating five entities instead of one. Fixing them in parallel keeps the expanded engine trustworthy at launch.</p>
+    <p class="lede" style="margin-top:-12px;">Each finding is tagged with type, scope, and severity. Click an item to jump to the full write-up with screenshot, pain point, and recommendation.</p>
+
+    <table class="summary-table" id="findings-summary-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Issue</th>
+          <th>Type</th>
+          <th>Scope</th>
+          <th class="severity sortable" aria-sort="descending">
+            <button type="button" class="sort-trigger" data-sort-key="severity">
+              Severity
+              <span class="sort-arrow" aria-hidden="true">▼</span>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-severity-rank="1" data-aud-id="aud-01">
+          <td class="id">AUD-01</td>
+          <td class="issue">Test function returns incorrect results</td>
+          <td>Bug</td>
+          <td><span class="scope-dot dd"></span>Decision Diamond</td>
+          <td class="severity"><span class="pill-severity critical">Critical</span></td>
+        </tr>
+        <tr data-severity-rank="2" data-aud-id="aud-02">
+          <td class="id">AUD-02</td>
+          <td class="issue">No Save action on the config screen</td>
+          <td>Bug</td>
+          <td><span class="scope-dot dd"></span>Decision Diamond</td>
+          <td class="severity"><span class="pill-severity high">High</span></td>
+        </tr>
+        <tr data-severity-rank="2" data-aud-id="aud-03">
+          <td class="id">AUD-03</td>
+          <td class="issue">Duplicate panel titles obscure which branch is being edited</td>
+          <td>Issue</td>
+          <td><span class="scope-dot dd"></span>Decision Diamond</td>
+          <td class="severity"><span class="pill-severity high">High</span></td>
+        </tr>
+        <tr data-severity-rank="2" data-aud-id="aud-04">
+          <td class="id">AUD-04</td>
+          <td class="issue">Diamond doesn&rsquo;t visually communicate branching on canvas</td>
+          <td>Issue</td>
+          <td><span class="scope-dot overall"></span>Overall impact</td>
+          <td class="severity"><span class="pill-severity high">High</span></td>
+        </tr>
+        <tr data-severity-rank="3" data-aud-id="aud-05">
+          <td class="id">AUD-05</td>
+          <td class="issue">Title doesn&rsquo;t scale across entity types</td>
+          <td>Enhancement</td>
+          <td><span class="scope-dot dd"></span>Decision Diamond</td>
+          <td class="severity"><span class="pill-severity medium">Medium</span></td>
+        </tr>
+        <tr data-severity-rank="3" data-aud-id="aud-06">
+          <td class="id">AUD-06</td>
+          <td class="issue">Decision diamond not fully responsive</td>
+          <td>Bug</td>
+          <td><span class="scope-dot dd"></span>Decision Diamond</td>
+          <td class="severity"><span class="pill-severity medium">Medium</span></td>
+        </tr>
+        <tr data-severity-rank="3" data-aud-id="aud-07">
+          <td class="id">AUD-07</td>
+          <td class="issue">Ambiguous status indicator (orange dot)</td>
+          <td>Issue</td>
+          <td><span class="scope-dot overall"></span>Overall impact</td>
+          <td class="severity"><span class="pill-severity medium">Medium</span></td>
+        </tr>
+        <tr data-severity-rank="4" data-aud-id="aud-08">
+          <td class="id">AUD-08</td>
+          <td class="issue">Default rule set count adds unnecessary input</td>
+          <td>Enhancement</td>
+          <td><span class="scope-dot dd"></span>Decision Diamond</td>
+          <td class="severity"><span class="pill-severity low">Low</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ====== FINDING CARDS — SLIDES ====== -->
+    <div class="findings-slides" style="margin-top:32px;" id="findings-slides">
+      <div class="findings-track" id="findings-track">
+
+      <!-- AUD-05 -->
+      <article id="aud-05" class="finding-card">
+        <div class="stripe medium"></div>
+        <div class="body">
+          <div class="header">
+            <span class="aud">AUD-05</span>
+            <span class="pill-severity medium">Medium</span>
+          </div>
+          <h3>Title doesn&rsquo;t scale across entity types</h3>
+          <div class="tags">
+            <span>Enhancement</span><span class="sep">·</span>
+            <span><span class="scope-dot dd"></span>Decision Diamond</span>
+          </div>
+          <div class="image-slot">
+            <img src="images/aud-05-title-scaling.png" alt="Decision diamond panel with the hardcoded heading 'What rules must a contact meet to be allowed into the Sequence sequence?' highlighted in red, showing the title that doesn't scale across entity types" onerror="this.classList.add('broken')">
+            <div class="placeholder">
+              <div class="icon">▢</div>
+              <div class="label">Image 5 — hardcoded title highlighted in red</div>
+              <div class="filename">images/aud-05-title-scaling.png</div>
+            </div>
+          </div>
+          <div class="label-row">Pain point</div>
+          <p class="pain">The current heading hardcodes &ldquo;What rules must a contact meet to be allowed into the &lsquo;Sequence&rsquo; sequence?&rdquo; As the product introduces additional entities beyond Contact and Sequence, this copy won&rsquo;t carry over and will require manual updates for each new entity.</p>
+          <hr class="divider">
+          <div class="label-row">Recommendation</div>
+          <p class="rec">Shorten the heading to &ldquo;Rules for &lsquo;[Entity Name]&rsquo;&rdquo; with the entity name dynamically bound, and remove the descriptive sub-question. Pattern then scales across current and future entity types.</p>
+        </div>
+      </article>
+
+      <!-- AUD-06 -->
+      <article id="aud-06" class="finding-card">
+        <div class="stripe medium"></div>
+        <div class="body">
+          <div class="header">
+            <span class="aud">AUD-06</span>
+            <span class="pill-severity medium">Medium</span>
+          </div>
+          <h3>Decision diamond not fully responsive</h3>
+          <div class="tags">
+            <span>Bug</span><span class="sep">·</span>
+            <span><span class="scope-dot dd"></span>Decision Diamond</span>
+          </div>
+          <div class="image-slot">
+            <img src="images/aud-06-responsive.png" alt="Decision diamond configuration panel overflowing the dimmed backdrop area at a smaller screen size, showing how the layout breaks responsively" onerror="this.classList.add('broken')">
+            <div class="placeholder">
+              <div class="icon">▢</div>
+              <div class="label">Image 1 — panel overflows backdrop at smaller width</div>
+              <div class="filename">images/aud-06-responsive.png</div>
+            </div>
+          </div>
+          <div class="label-row">Pain point</div>
+          <p class="pain">The current structure is retained, but layout breaks exist within that structure at smaller breakpoints, causing fields and panels to overflow or misalign.</p>
+          <hr class="divider">
+          <div class="label-row">Recommendation</div>
+          <p class="rec">Full responsive audit in progress. Findings will be documented per breakpoint with annotated specs before engineering handoff. Target breakpoints: 1440 / 1024 / 768.</p>
+        </div>
+      </article>
+
+      <!-- AUD-02 -->
+      <article id="aud-02" class="finding-card">
+        <div class="stripe high"></div>
+        <div class="body">
+          <div class="header">
+            <span class="aud">AUD-02</span>
+            <span class="pill-severity high">High</span>
+          </div>
+          <h3>No Save action on the config screen</h3>
+          <div class="tags">
+            <span>Bug</span><span class="sep">·</span>
+            <span><span class="scope-dot dd"></span>Decision Diamond</span>
+          </div>
+          <div class="image-slot">
+            <img src="images/aud-02-no-save.png" alt="Decision diamond configuration panel showing no Save button in the header (and mock with Save added)" onerror="this.classList.add('broken')">
+            <div class="placeholder">
+              <div class="icon">▢</div>
+              <div class="label">Needed: capture of panel header (and Save mock)</div>
+              <div class="filename">images/aud-02-no-save.png</div>
+            </div>
+          </div>
+          <div class="label-row">Pain point</div>
+          <p class="pain">The configuration screen is missing a Save button. Users have no clear way to commit their changes or confirm that work has been persisted, breaking a foundational expectation of any configuration flow.</p>
+          <hr class="divider">
+          <div class="label-row">Recommendation</div>
+          <p class="rec">Add a primary Save action with explicit enabled / disabled / saved states. Confirm with engineering whether auto-save exists; if so, surface persistence status so users have visible feedback.</p>
+        </div>
+      </article>
+
+      <!-- AUD-01 -->
+      <article id="aud-01" class="finding-card">
+        <div class="stripe critical"></div>
+        <div class="body">
+          <div class="header">
+            <span class="aud">AUD-01</span>
+            <span class="pill-severity critical">Critical</span>
+          </div>
+          <h3>Test function returns incorrect results</h3>
+          <div class="tags">
+            <span>Bug</span><span class="sep">·</span>
+            <span><span class="scope-dot dd"></span>Decision Diamond</span>
+          </div>
+          <div class="image-slot">
+            <img src="images/aud-01-test-wrong.png" alt="Test panel modal showing red errors warning that the contact would fall out of the automation, with prompts to check rules or create a catch-all sequence, even when input matches the configured rule criteria" onerror="this.classList.add('broken')">
+            <div class="placeholder">
+              <div class="icon">▢</div>
+              <div class="label">Image 2 — Test panel modal with red errors</div>
+              <div class="filename">images/aud-01-test-wrong.png</div>
+            </div>
+          </div>
+          <div class="label-row">Pain point</div>
+          <p class="pain">The Test action runs but produces the wrong outcome even when input matches the configured rule criteria. Users rely on Test to validate logic before publishing — an unreliable Test is worse than no Test, because users will publish based on misleading feedback.</p>
+          <hr class="divider">
+          <div class="label-row">Recommendation</div>
+          <p class="rec">Engineering investigation into the evaluation logic is required. In the interim, surface a known-issue state on the Test panel so users do not act on incorrect output.</p>
+        </div>
+      </article>
+
+      <!-- AUD-08 -->
+      <article id="aud-08" class="finding-card">
+        <div class="stripe low"></div>
+        <div class="body">
+          <div class="header">
+            <span class="aud">AUD-08</span>
+            <span class="pill-severity low">Low</span>
+          </div>
+          <h3>Default rule set count adds unnecessary input</h3>
+          <div class="tags">
+            <span>Enhancement</span><span class="sep">·</span>
+            <span><span class="scope-dot dd"></span>Decision Diamond</span>
+          </div>
+          <div class="image-slot">
+            <img src="images/aud-08-default-rulesets.png" alt="Configuration screen showing two rule set blocks rendered by default with the second one empty" onerror="this.classList.add('broken')">
+            <div class="placeholder">
+              <div class="icon">▢</div>
+              <div class="label">Pair: Image 2 (same source as AUD-05 — two rule sets visible)</div>
+              <div class="filename">images/aud-08-default-rulesets.png</div>
+            </div>
+          </div>
+          <div class="label-row">Pain point</div>
+          <p class="pain">The screen always renders two rule sets by default, even when only Rule 1 is needed. The empty second set creates visual noise and implies a required input that isn&rsquo;t actually required.</p>
+          <hr class="divider">
+          <div class="label-row">Recommendation</div>
+          <p class="rec">Default to one rule set, with an &ldquo;Add rule set&rdquo; affordance for users who need more. Aligns with progressive disclosure.</p>
+        </div>
+      </article>
+
+      <!-- AUD-03 -->
+      <article id="aud-03" class="finding-card">
+        <div class="stripe high"></div>
+        <div class="body">
+          <div class="header">
+            <span class="aud">AUD-03</span>
+            <span class="pill-severity high">High</span>
+          </div>
+          <h3>Duplicate panel titles obscure which branch is being edited</h3>
+          <div class="tags">
+            <span>Issue</span><span class="sep">·</span>
+            <span><span class="scope-dot dd"></span>Decision Diamond</span>
+          </div>
+          <div class="image-slot">
+            <img src="images/aud-03-duplicate-titles.png" alt="Two stacked panels both titled 'Rules for: Sequence' with no path indicator or numbering" onerror="this.classList.add('broken')">
+            <div class="placeholder">
+              <div class="icon">▢</div>
+              <div class="label">Pair: Image 5 (two panels titled "Rules for: Sequence")</div>
+              <div class="filename">images/aud-03-duplicate-titles.png</div>
+            </div>
+          </div>
+          <div class="label-row">Pain point</div>
+          <p class="pain">When two downstream branches target sequences that share the same name, both panels render with the identical title &ldquo;Rules for: Sequence.&rdquo; No path indicator and no numbering — users cannot tell which rule set controls which target. Error cost is high; users can edit the wrong branch without noticing.</p>
+          <hr class="divider">
+          <div class="label-row">Recommendation</div>
+          <p class="rec">At minimum, auto-append a disambiguator at the panel level (e.g., &ldquo;Sequence 1&rdquo; / &ldquo;Sequence 2&rdquo;). Stronger: auto-rename every sequence to match the name of its function so identity is clear at the source.</p>
+        </div>
+      </article>
+
+      <!-- AUD-04 -->
+      <article id="aud-04" class="finding-card">
+        <div class="stripe high"></div>
+        <div class="body">
+          <div class="header">
+            <span class="aud">AUD-04</span>
+            <span class="pill-severity high">High</span>
+          </div>
+          <h3>Diamond doesn&rsquo;t visually communicate branching on canvas</h3>
+          <div class="tags">
+            <span>Issue</span><span class="sep">·</span>
+            <span><span class="scope-dot overall"></span>Overall impact</span>
+          </div>
+          <div class="image-slot">
+            <img src="images/aud-04-canvas-branching.png" alt="Automation canvas showing the decision diamond as a small icon with arrows identical to linear flow arrows, no branch labeling" onerror="this.classList.add('broken')">
+            <div class="placeholder">
+              <div class="icon">▢</div>
+              <div class="label">Needed: canvas capture (Decision Diamond + two branch arrows)</div>
+              <div class="filename">images/aud-04-canvas-branching.png</div>
+            </div>
+          </div>
+          <div class="label-row">Pain point</div>
+          <p class="pain">The diamond shape has one input and two outputs, but on the canvas it renders as a small icon with arrows identical to linear flow arrows. No Yes/No, True/False, or match labeling — users can&rsquo;t tell which path is which without opening the node.</p>
+          <hr class="divider">
+          <div class="label-row">Recommendation</div>
+          <p class="rec">Add explicit branch labels on the canvas (e.g., &ldquo;Matches&rdquo; / &ldquo;Doesn&rsquo;t match&rdquo;) and visually differentiate branching arrows from linear flow arrows. Applies to any future branching step in the automation builder.</p>
+        </div>
+      </article>
+
+      <!-- AUD-07 -->
+      <article id="aud-07" class="finding-card">
+        <div class="stripe medium"></div>
+        <div class="body">
+          <div class="header">
+            <span class="aud">AUD-07</span>
+            <span class="pill-severity medium">Medium</span>
+          </div>
+          <h3>Ambiguous status indicator (orange dot)</h3>
+          <div class="tags">
+            <span>Issue</span><span class="sep">·</span>
+            <span><span class="scope-dot overall"></span>Overall impact</span>
+          </div>
+          <div class="image-slot">
+            <img src="images/aud-07-orange-dot.png" alt="Decision diamond node on canvas with orange dot indicator and 'Ready to publish' tooltip, visually indistinguishable from warning states" onerror="this.classList.add('broken')">
+            <div class="placeholder">
+              <div class="icon">▢</div>
+              <div class="label">Needed: canvas capture (orange dot + Ready to publish tooltip)</div>
+              <div class="filename">images/aud-07-orange-dot.png</div>
+            </div>
+          </div>
+          <div class="label-row">Pain point</div>
+          <p class="pain">The orange dot and &ldquo;Ready to publish&rdquo; tooltip are not visually differentiated from warning / error states elsewhere on the canvas. Orange/yellow conventionally signals &ldquo;attention needed&rdquo; — using it to mean &ldquo;ready&rdquo; creates color-semantic conflict and trains users to ignore real warning states.</p>
+          <hr class="divider">
+          <div class="label-row">Recommendation</div>
+          <p class="rec">Reserve orange/yellow for warning states. Use a distinct color (e.g., green) for positive ready states. Audit color usage across the automation builder for system-wide consistency.</p>
+        </div>
+      </article>
+
+      </div>
+      <div class="slides-nav">
+        <span class="counter" id="slides-counter">1 / 8</span>
+        <div class="arrows">
+          <button type="button" id="slides-prev" disabled>← Previous</button>
+          <button type="button" id="slides-next">Next →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SUCCESS METRICS ====== -->
+  <section id="metrics">
+    <div class="eyebrow">Success metrics</div>
+    <h2>How we&rsquo;ll know v1 worked (TBD)</h2>
+    <p class="lede">Two metric families: <strong>entity expansion adoption</strong> (the main project — proving local service businesses use the new entity-aware capabilities) and <strong>trust signals</strong> (the audit workstream — proving the configuration UX no longer blocks confidence). Baselines instrumented 4 weeks pre-release; primary read at 8 weeks post-release.</p>
+
+    <h3 style="margin-top:24px;">Object expansions (main project)</h3>
+    <div class="kpi-row" style="margin-top:14px;">
+      <div class="kpi">
+        <div class="name">Entity-aware DD adoption</div>
+        <div class="target">35%+</div>
+        <div class="desc">% of new Decision Diamond configs evaluating a non-contact entity within 8 weeks of release.</div>
+      </div>
+      <div class="kpi">
+        <div class="name">Vertical template uptake</div>
+        <div class="target">50%+</div>
+        <div class="desc">% of new ICP accounts launching at least one vertical-aware automation in their first 30 days.</div>
+      </div>
+      <div class="kpi">
+        <div class="name">Frankenstein workaround reduction</div>
+        <div class="target">−60%</div>
+        <div class="desc">Multi-automation + tag-gymnastics patterns replaced by single entity-aware DD configs.</div>
+      </div>
+      <div class="kpi">
+        <div class="name">Time-to-first-template</div>
+        <div class="target">−40%</div>
+        <div class="desc">New ICP account to first published templated automation. Indicator of onboarding velocity.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px;">Trust signals (UX audit workstream)</h3>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="name">Publish completion rate</div>
+        <div class="target">+15%</div>
+        <div class="desc">Sequences started → sequences published, segmented by Decision-Diamond vs. linear-only.</div>
+      </div>
+      <div class="kpi">
+        <div class="name">Wrong-branch edit incidence</div>
+        <div class="target">−50%</div>
+        <div class="desc">Undo events within 60s of saving a Decision Diamond config. Proxy for AUD-03 confusion.</div>
+      </div>
+      <div class="kpi">
+        <div class="name">Test reliability</div>
+        <div class="target">95%+</div>
+        <div class="desc">% of Test outcomes matching actual production behavior. Directly addresses AUD-01.</div>
+      </div>
+      <div class="kpi">
+        <div class="name">Time-to-publish</div>
+        <div class="target">−30%</div>
+        <div class="desc">From node-drop to publish for a new Decision Diamond config.</div>
+      </div>
+    </div>
+
+    <div class="metrics-table">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Maps to findings</th>
+            <th>Measurement</th>
+            <th class="severity">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="issue">Publish completion rate</td>
+            <td>AUD-02, AUD-01, AUD-03</td>
+            <td>Quantitative funnel</td>
+            <td class="severity" style="text-align:right;">Product analytics</td>
+          </tr>
+          <tr>
+            <td class="issue">Wrong-branch edit incidence</td>
+            <td>AUD-03, AUD-04</td>
+            <td>Undo within 60s of save</td>
+            <td class="severity" style="text-align:right;">Product analytics</td>
+          </tr>
+          <tr>
+            <td class="issue">Test reliability</td>
+            <td>AUD-01</td>
+            <td>Test vs. production outcome match</td>
+            <td class="severity" style="text-align:right;">Engineering instrumentation</td>
+          </tr>
+          <tr>
+            <td class="issue">Time-to-publish</td>
+            <td>AUD-05, AUD-06, AUD-08</td>
+            <td>Median time from node-drop to publish</td>
+            <td class="severity" style="text-align:right;">Product analytics</td>
+          </tr>
+          <tr>
+            <td class="issue">Support ticket volume (automation-related)</td>
+            <td>All</td>
+            <td>Tickets mentioning &ldquo;save&rdquo;, &ldquo;test&rdquo;, &ldquo;wrong branch&rdquo;</td>
+            <td class="severity" style="text-align:right;">Support CRM</td>
+          </tr>
+          <tr>
+            <td class="issue">Post-publish micro-survey (NPS)</td>
+            <td>All</td>
+            <td>Single in-product question</td>
+            <td class="severity" style="text-align:right;">In-product survey</td>
+          </tr>
+          <tr>
+            <td class="issue">Warning/error misinterpretation rate</td>
+            <td>AUD-07</td>
+            <td>Color audit retest with users</td>
+            <td class="severity" style="text-align:right;">Qualitative research</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="secondary-list">
+      <h4>Counter-metrics (so we don&rsquo;t game the numbers)</h4>
+      <ul>
+        <li>Drop-off at &ldquo;Add rule set&rdquo; — if AUD-08&rsquo;s progressive disclosure hides functionality users need, we&rsquo;ll see them stuck at a single rule set when their intent requires more.</li>
+        <li>Increase in published-but-broken automations — if Save and Test fixes give false confidence, ticket volume on logic errors could rise even as publish rate climbs.</li>
+        <li>Adoption of branching automations as a share of all automations — should hold or grow; a drop would suggest the rework made the feature feel more complex, not less.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====== TESTING PLAN ====== -->
+  <section id="testing">
+    <div class="eyebrow">Testing plan</div>
+    <h2>Validating both workstreams</h2>
+    <p class="lede">Qualitative validation before engineering scoping, quantitative pre/post tracking, and an A/B test for new ICP accounts. Phase 1 tasks now cover <strong>both</strong> entity expansion (configuring a Decision Diamond against a non-contact entity for a vertical scenario) and trust-layer audit fixes (Save, Test, branch identity). Per-finding validation criteria for the audit findings sit below the phases.</p>
+
+    <div class="phase-stack">
+
+      <div class="phase">
+        <div class="number">01</div>
+        <div>
+          <h3>Pre-launch moderated usability test</h3>
+          <div class="method">Qualitative · 6–8 participants · 45 min</div>
+          <p>Participants split between new users (no Decision Diamond experience) and existing users (have published ≥3 automations). Designed to surface blockers before engineering scopes the redesign.</p>
+          <p style="margin-top:8px;"><strong>Tasks:</strong></p>
+          <ul>
+            <li>Configure a Decision Diamond that routes contacts whose First Name equals &ldquo;Jake&rdquo; into Sequence A, others into Sequence B</li>
+            <li>Save the configuration and confirm persistence (kill the tab, reopen, verify)</li>
+            <li>Run Test with a sample contact and predict the outcome before clicking Evaluate</li>
+            <li>Publish the automation</li>
+            <li>Return to the published automation and modify only the Sequence A branch — save again</li>
+          </ul>
+          <div class="success"><strong>Success criteria:</strong> 80%+ complete all tasks without facilitator intervention. Zero wrong-branch edits in task 5. Test outcome predictions match Evaluate output in 100% of attempts.</div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="number">02</div>
+        <div>
+          <h3>Quantitative pre/post tracking</h3>
+          <div class="method">Quantitative · all users · 12 weeks</div>
+          <p>Instrument all primary KPIs 4 weeks before release for baseline. Compare 8 weeks post-release. Segment by user tenure (new / established) and automation complexity (number of branches).</p>
+          <p style="margin-top:8px;"><strong>What we&rsquo;re watching:</strong></p>
+          <ul>
+            <li>Publish completion rate — primary signal that Save and Test fixes unblocked the funnel</li>
+            <li>Wrong-branch edits — measured via undo within 60s of save; proxy for AUD-03 confusion</li>
+            <li>Time-to-publish for Decision Diamond configs — should decrease with title clarity (AUD-05), responsive fixes (AUD-06), and reduced default inputs (AUD-08)</li>
+            <li>Support ticket volume on automation topics — leading indicator of trust restoration</li>
+          </ul>
+          <div class="success"><strong>Success criteria:</strong> All four primary KPIs hit targets within 8 weeks. No counter-metric regression beyond pre-release noise floor.</div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="number">03</div>
+        <div>
+          <h3>A/B test for new users</h3>
+          <div class="method">Quantitative · new users only · 4 weeks</div>
+          <p>Random 50/50 split — control sees the existing Decision Diamond, variant sees the redesigned version. Restricted to new users so neither group has prior exposure to the legacy UI.</p>
+          <p style="margin-top:8px;"><strong>Hypothesis:</strong> the redesign produces a statistically significant lift in publish completion rate without a corresponding drop in branching automation adoption.</p>
+          <div class="success"><strong>Success criteria:</strong> ≥10% absolute lift in publish completion at p &lt; 0.05. Adoption of branching automations holds or grows.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <h3 style="margin-top:48px;">Per-finding validation criteria</h3>
+    <table class="validation-table">
+      <thead>
+        <tr><th>Finding</th><th>What we&rsquo;ll test</th><th>Method</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="aud">AUD-05</td><td>Heading scales when a non-Contact entity is introduced</td><td>Copy review with localization &amp; content stakeholders + 5-second test</td></tr>
+        <tr><td class="aud">AUD-06</td><td>No layout breaks at 1440 / 1024 / 768 px</td><td>Responsive QA matrix + design review of breakpoint specs</td></tr>
+        <tr><td class="aud">AUD-02</td><td>Save state is discoverable, communicates persistence clearly</td><td>Usability test task 2 + accessibility audit (keyboard, screen reader)</td></tr>
+        <tr><td class="aud">AUD-01</td><td>Test outcome matches production behavior in all rule shapes</td><td>Engineering regression suite covering all operator types + manual QA</td></tr>
+        <tr><td class="aud">AUD-08</td><td>Single-rule-set default doesn&rsquo;t hide functionality from users who need more</td><td>Drop-off heatmap on &ldquo;Add rule set&rdquo; affordance + interview question on discoverability</td></tr>
+        <tr><td class="aud">AUD-03</td><td>Users edit the correct branch when downstream sequences share a name</td><td>Usability test task 5 specifically; 0% wrong-branch edits is the bar</td></tr>
+        <tr><td class="aud">AUD-04</td><td>Users identify which branch is the &ldquo;match&rdquo; path from the canvas alone</td><td>5-second test on canvas screenshot — 80%+ correct identification</td></tr>
+        <tr><td class="aud">AUD-07</td><td>Users distinguish &ldquo;ready&rdquo; from &ldquo;needs attention&rdquo; without opening the node</td><td>Color audit retest + tooltip clarity test with 8&ndash;10 users</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ====== JIRA TICKETS ====== -->
+  <section id="jira-tickets">
+    <div class="eyebrow">Jira tickets</div>
+    <h2>Decision Diamonds migration to automation engine</h2>
+    <p class="lede">All v1 delivery items live under epic TP-10331. Audit findings AUD-01 through AUD-08 are wired to the child tickets below.</p>
+
+    <div class="epic-card">
+      <div class="epic-header">
+        <div>
+          <div class="epic-key">TP-10331 · Epic</div>
+          <div class="epic-title">Decision Diamonds Migration to Automation Engine</div>
+        </div>
+        <a href="https://thryv.atlassian.net/browse/TP-10331" target="_blank" rel="noopener" class="epic-open">Open in Jira ↗</a>
+      </div>
+      <div class="epic-meta">
+        <span class="epic-status pre-dev">Pre-Dev</span>
+        <span class="epic-priority">P3</span>
+        <span class="epic-assignee">Owner: Jeremiah Weise</span>
+        <span class="epic-children-count">11 child tickets</span>
+      </div>
+      <p class="epic-summary">Introduces Decision Diamonds (if/then branching logic) to Easy Automations, enabling smarter workflows without leaving the simplified builder. Branching on contact, deal, company, and date fields. AI-powered suggestions for common business logic. First user-facing milestone in the automation engine&rsquo;s backend migration.</p>
+    </div>
+
+    <h3 style="margin-top:36px;font-size:17px;">Child tickets</h3>
+    <div class="workspace-grid">
+      <div class="workspace-block">
+
+        <div class="jira-toolbar" role="tablist" aria-label="Filter Jira tickets by status">
+          <button class="jira-filter active" data-jira-filter="all">All (11)</button>
+          <button class="jira-filter" data-jira-filter="dev">Ready for dev (4)</button>
+          <button class="jira-filter" data-jira-filter="open">Open (4)</button>
+          <button class="jira-filter" data-jira-filter="cancelled">Cancelled (3)</button>
+        </div>
+
+        <table class="jira-table" id="jira-table">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Summary</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Assignee</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-status="dev"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9902" target="_blank" rel="noopener">TP-9902</a></td><td class="summary">Test function produces the wrong (reversed) outcome<a class="aud-link" href="#aud-01">AUD-01</a></td><td><span class="jira-type">Bug</span></td><td><span class="jira-status dev">Ready for dev</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="dev"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9901" target="_blank" rel="noopener">TP-9901</a></td><td class="summary">Add a Save action to the config screen<a class="aud-link" href="#aud-02">AUD-02</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status dev">Ready for dev</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="dev"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9899" target="_blank" rel="noopener">TP-9899</a></td><td class="summary">Rule-set panel titles don&rsquo;t scale across entity types + don&rsquo;t identify the branch<a class="aud-link" href="#aud-03">AUD-03</a><a class="aud-link" href="#aud-05">AUD-05</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status dev">Ready for dev</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="dev"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9905" target="_blank" rel="noopener">TP-9905</a></td><td class="summary">Disambiguate the &lsquo;Ready to publish&rsquo; status indicator color<a class="aud-link" href="#aud-07">AUD-07</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status dev">Ready for dev</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9904" target="_blank" rel="noopener">TP-9904</a></td><td class="summary">Visually communicate branching on the canvas<a class="aud-link" href="#aud-04">AUD-04</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9900" target="_blank" rel="noopener">TP-9900</a></td><td class="summary">Component not fully responsive<a class="aud-link" href="#aud-06">AUD-06</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9903" target="_blank" rel="noopener">TP-9903</a></td><td class="summary">Default to one rule set (not two)<a class="aud-link" href="#aud-08">AUD-08</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9300" target="_blank" rel="noopener">TP-9300</a></td><td class="summary">[Spike] Decision Diamonds migration to automation engine, plan &amp; approach</td><td><span class="jira-type">Spike</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="cancelled"><td class="key"><a href="https://thryv.atlassian.net/browse/FS-72357" target="_blank" rel="noopener">FS-72357</a></td><td class="summary">Remove feature flag for FS-72356, Decision Diamonds to Easy Automations</td><td><span class="jira-type">Task</span></td><td><span class="jira-status cancelled">Cancelled</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="cancelled"><td class="key"><a href="https://thryv.atlassian.net/browse/FS-72358" target="_blank" rel="noopener">FS-72358</a></td><td class="summary">Threat model analysis for FS-72356, Decision Diamonds to Easy Automations</td><td><span class="jira-type">Task</span></td><td><span class="jira-status cancelled">Cancelled</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="cancelled"><td class="key"><a href="https://thryv.atlassian.net/browse/FS-72359" target="_blank" rel="noopener">FS-72359</a></td><td class="summary">Create feature flag for FS-72356, Decision Diamonds to Easy Automations</td><td><span class="jira-type">Task</span></td><td><span class="jira-status cancelled">Cancelled</span></td><td class="jira-assignee">Unassigned</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Decision Diamond PRD prep · v1 · 2026-05-28 · Owner Jialing · linked audit: <code>decision-diamond-audit.svg</code> · <a href="https://thryv.atlassian.net/wiki/x/PwBx-w" target="_blank" rel="noopener" style="color:var(--brand);text-decoration:none;font-weight:500;">View on Confluence ↗</a>
+</footer>
+
+<script>
+  // Highlight nav link of the section currently in view.
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('nav.top a');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        links.forEach(a => {
+          const active = a.getAttribute('href') === '#' + id;
+          a.style.color = active ? 'var(--text)' : 'var(--text-muted)';
+          a.style.borderBottomColor = active ? 'var(--text)' : 'transparent';
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
+
+<!-- ============ Tacinit team modal ============ -->
+<div class="team-modal-overlay" id="team-modal-overlay" aria-hidden="true">
+  <div class="team-modal" role="dialog" aria-labelledby="team-modal-title" aria-modal="true">
+    <div class="team-modal-header">
+      <div>
+        <h3 id="team-modal-title">Tacinit team</h3>
+        <div class="subtitle">12 members across product, design, and engineering</div>
+      </div>
+      <button type="button" class="team-modal-close" id="team-modal-close" aria-label="Close team modal">×</button>
+    </div>
+    <div class="team-modal-grid">
+      <div class="team-card"><div class="team-avatar" style="background:#EC4899;">AV</div><div class="name">Almathely Vivas Rosales</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#F59E0B;">AK</div><div class="name">Anil Kumar Singani</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#14B8A6;">BH</div><div class="name">Beatriz Hernandez Hernandez</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#6366F1;">DN</div><div class="name">Diego Naranjo Castillo</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#84CC16;">EV</div><div class="name">Enrique Valverde Chacon</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#2D5BE3;">JW</div><div class="name">Jeremiah Weise</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#A855F7;">JC</div><div class="name">Jialing Chen</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#06B6D4;">LT</div><div class="name">Laurel Taylor</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#F97316;">LS</div><div class="name">Lizette Sanglay</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#10B981;">MA</div><div class="name">Marvin Abisrror Zarate</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#EF4444;">RW</div><div class="name">Ryan Waggoner</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#D946EF;">SW</div><div class="name">Shreya Nitin Wadkar</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- Findings: severity sort + slides controller ----------
+  (function () {
+    const table = document.getElementById('findings-summary-table');
+    if (!table) return;
+    const tbody = table.querySelector('tbody');
+    const th = table.querySelector('th.sortable');
+    const trigger = th && th.querySelector('.sort-trigger');
+    const track = document.getElementById('findings-track');
+    const counter = document.getElementById('slides-counter');
+    const prevBtn = document.getElementById('slides-prev');
+    const nextBtn = document.getElementById('slides-next');
+    const slidesWrap = document.getElementById('findings-slides');
+
+    function currentRows() { return Array.from(tbody.querySelectorAll('tr')); }
+
+    function show(audId) {
+      if (!track) return;
+      const rows = currentRows();
+      const idx = rows.findIndex(r => r.dataset.audId === audId);
+      if (idx < 0) return;
+      rows.forEach(r => r.classList.remove('active'));
+      rows[idx].classList.add('active');
+      track.querySelectorAll('.finding-card').forEach(c => c.setAttribute('aria-current', 'false'));
+      const card = track.querySelector('#' + audId);
+      if (card) card.setAttribute('aria-current', 'true');
+      if (counter) counter.textContent = (idx + 1) + ' / ' + rows.length;
+      if (prevBtn) prevBtn.disabled = idx === 0;
+      if (nextBtn) nextBtn.disabled = idx === rows.length - 1;
+      if (prevBtn) prevBtn.dataset.target = idx > 0 ? rows[idx - 1].dataset.audId : '';
+      if (nextBtn) nextBtn.dataset.target = idx < rows.length - 1 ? rows[idx + 1].dataset.audId : '';
+    }
+
+    function getActiveAud() {
+      const active = tbody.querySelector('tr.active');
+      return active ? active.dataset.audId : (currentRows()[0] || {}).dataset?.audId;
+    }
+
+    function sortRows(direction) {
+      const rows = currentRows();
+      rows.sort((a, b) => {
+        const ra = parseInt(a.dataset.severityRank, 10);
+        const rb = parseInt(b.dataset.severityRank, 10);
+        return direction === 'descending' ? ra - rb : rb - ra;
+      });
+      rows.forEach(r => tbody.appendChild(r));
+      th.setAttribute('aria-sort', direction);
+      const active = getActiveAud();
+      if (active) show(active);
+    }
+
+    if (trigger) {
+      trigger.addEventListener('click', () => {
+        const current = th.getAttribute('aria-sort') || 'descending';
+        sortRows(current === 'descending' ? 'ascending' : 'descending');
+      });
+    }
+
+    if (track) {
+      tbody.addEventListener('click', (e) => {
+        const tr = e.target.closest('tr');
+        if (!tr || !tr.dataset.audId) return;
+        show(tr.dataset.audId);
+        if (slidesWrap) slidesWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+      if (prevBtn) prevBtn.addEventListener('click', () => {
+        if (prevBtn.dataset.target) show(prevBtn.dataset.target);
+      });
+      if (nextBtn) nextBtn.addEventListener('click', () => {
+        if (nextBtn.dataset.target) show(nextBtn.dataset.target);
+      });
+      window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.slice(1);
+        if (hash && hash.startsWith('aud-')) show(hash);
+      });
+      // Initial state
+      const first = currentRows()[0];
+      if (first && first.dataset.audId) show(first.dataset.audId);
+      const initialHash = window.location.hash.slice(1);
+      if (initialHash && initialHash.startsWith('aud-')) show(initialHash);
+    }
+  })();
+
+  // ---------- Jira backlog filter ----------
+  (function () {
+    const buttons = document.querySelectorAll('.jira-filter');
+    const rows = document.querySelectorAll('#jira-table tbody tr');
+    if (!buttons.length || !rows.length) return;
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.jiraFilter;
+        rows.forEach(row => {
+          const match = filter === 'all' || row.dataset.status === filter;
+          row.classList.toggle('hidden', !match);
+        });
+      });
+    });
+  })();
+
+  // ---------- Tacinit team modal ----------
+  (function () {
+    const teamBtn = document.getElementById('tacinit-btn');
+    const teamOverlay = document.getElementById('team-modal-overlay');
+    const teamClose = document.getElementById('team-modal-close');
+    if (!teamBtn || !teamOverlay || !teamClose) return;
+
+    function openTeamModal() {
+      teamOverlay.classList.add('open');
+      teamOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      teamClose.focus();
+    }
+    function closeTeamModal() {
+      teamOverlay.classList.remove('open');
+      teamOverlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      teamBtn.focus();
+    }
+    teamBtn.addEventListener('click', openTeamModal);
+    teamClose.addEventListener('click', closeTeamModal);
+    teamOverlay.addEventListener('click', (e) => {
+      if (e.target === teamOverlay) closeTeamModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && teamOverlay.classList.contains('open')) closeTeamModal();
+    });
+  })();
+</script>
+
+</body>
+</html>
