@@ -836,6 +836,38 @@ margin-bottom: 4px;
     border: 0;
     display: block;
   }
+  .poc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .poc-head h3 { margin-bottom: 0; }
+  .poc-versions {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px;
+    background: var(--bg-subtle);
+  }
+  .poc-version {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 14px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .poc-version:hover { color: var(--brand); }
+  .poc-version.is-active {
+    background: var(--brand);
+    color: white;
+  }
   .figma-meta {
     margin-top: 10px;
     font-size: 14px;
@@ -2970,10 +3002,17 @@ white-space: nowrap;
 
       <!-- Live interactive prototype -->
       <div class="workspace-block">
-        <h3>Decision Diamond 2.0 · v1 prototype</h3>
-        <div class="desc">Built from <code>Decision-Diamond-Prototype/vue-decision-diamond</code> and hosted with this page. Click through the flow as if it were a real product.</div>
+        <div class="poc-head">
+          <h3 id="poc-title">Decision Diamond 2.0 · v1 prototype</h3>
+          <div class="poc-versions" role="group" aria-label="Prototype version">
+            <button type="button" class="poc-version is-active" data-version="v1" aria-pressed="true">v1</button>
+            <button type="button" class="poc-version" data-version="v2" aria-pressed="false">v2</button>
+          </div>
+        </div>
+        <div class="desc" id="poc-desc">Built from <code>Decision-Diamond-Prototype/vue-decision-diamond</code> and hosted with this page. Click through the flow as if it were a real product.</div>
         <div class="poc-frame">
           <iframe
+            id="poc-iframe"
             src="prototype/"
             allowfullscreen
             loading="lazy"
@@ -2981,8 +3020,8 @@ white-space: nowrap;
           </iframe>
         </div>
         <div class="figma-meta">
-          <span>Source: <code>Chialing83/Decision-Diamond-Prototype @ 95880c3</code></span>
-          <a href="prototype/" target="_blank" rel="noopener">Open in new tab ↗</a>
+          <span>Source: <code id="poc-source">Chialing83/Decision-Diamond-Prototype @ 95880c3</code></span>
+          <a id="poc-open" href="prototype/" target="_blank" rel="noopener">Open in new tab ↗</a>
         </div>
       </div>
 
@@ -3756,6 +3795,47 @@ white-space: nowrap;
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && teamOverlay.classList.contains('open')) closeTeamModal();
+    });
+  })();
+</script>
+
+<script>
+  // POC version switch: v1 is the original embed, v2 adds the AI rule builder.
+  (function () {
+    const versions = {
+      v1: {
+        title: 'Decision Diamond 2.0 · v1 prototype',
+        desc: 'Built from <code>Decision-Diamond-Prototype/vue-decision-diamond</code> and hosted with this page. Click through the flow as if it were a real product.',
+        src: 'prototype/',
+        source: 'Chialing83/Decision-Diamond-Prototype @ 95880c3',
+      },
+      v2: {
+        title: 'Decision Diamond 2.0 · v2 prototype',
+        desc: 'Adds the AI rule builder: describe who should get which follow-up in plain words and the diamond sets up the rules, asking when something is unclear. Also includes the one-line diamond titles.',
+        src: 'prototype-v2/',
+        source: 'Chialing83/Decision-Diamond-Prototype @ 89b8aa8 + AI rule builder',
+      },
+    };
+    const iframe = document.getElementById('poc-iframe');
+    const title = document.getElementById('poc-title');
+    const desc = document.getElementById('poc-desc');
+    const source = document.getElementById('poc-source');
+    const open = document.getElementById('poc-open');
+    const buttons = document.querySelectorAll('.poc-version');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const v = versions[btn.dataset.version];
+        buttons.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle('is-active', active);
+          b.setAttribute('aria-pressed', String(active));
+        });
+        title.textContent = v.title;
+        desc.innerHTML = v.desc;
+        source.textContent = v.source;
+        open.href = v.src;
+        iframe.src = v.src;
+      });
     });
   })();
 </script>
