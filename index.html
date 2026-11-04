@@ -553,6 +553,8 @@ margin: 0 0 2px;
     gap: 16px;
     margin-top: 24px;
   }
+  .kpi-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .kpi-row.cols-2 { grid-template-columns: repeat(2, 1fr); }
   .kpi {
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -2370,7 +2372,7 @@ white-space: nowrap;
     nav.top ul { display: none; }
     h1 { font-size: 34px; }
     h2 { font-size: 24px; }
-    .grid-2, .findings-grid, .kpi-row, .users-row, .audience-row {
+    .grid-2, .findings-grid, .kpi-row, .kpi-row.cols-3, .kpi-row.cols-2, .users-row, .audience-row {
       grid-template-columns: 1fr;
     }
     .phase { grid-template-columns: 1fr; }
@@ -2397,8 +2399,8 @@ white-space: nowrap;
       <li><a href="#spec">Spec</a></li>
       <li><a href="#poc">POC</a></li>
       <li><a href="#findings">UX audit</a></li>
-      <li><a href="#metrics">Success Metrics</a></li>
-      <li><a href="#testing">Testing Plan</a></li>
+      <li><a href="#metrics">Success metrics</a></li>
+      <li><a href="#testing">Testing plan</a></li>
       <li><a href="#jira-tickets">Jira tickets</a></li>
     </ul>
     <div class="meta">v1 · 2026-05-28</div>
@@ -2409,14 +2411,14 @@ white-space: nowrap;
 
   <!-- ====== HERO / OVERVIEW ====== -->
   <section id="overview" class="hero">
-    <div class="pill"><span class="dot"></span>PRD prep · object expansion + UX audits</div>
+    <div class="pill"><span class="dot"></span>PRD prep · object expansion + UX audit</div>
     <h1>Decision Diamond 2.0 - Object expansions</h1>
     <div class="hero-grid">
       <div class="summary-col">
-        <p class="lede">Today the Decision Diamond evaluates only <strong>Contact</strong>, forcing customers to stitch automations and tag workarounds together to handle work that lives on deals, invoices, and appointments. This project expands it to evaluate those objects alongside Contact, so customers can configure flows like estimate follow-ups, post-job reviews, no-show handling, and deal-value routing in a single node.</p>
-        <p class="lede" style="margin-top:-12px;">Phase I is our first batch to validate this concept, shipping four priority trigger sequences: <strong>Product is purchased, Appointments, Pipeline stage is moved,</strong> and <strong>Quote status</strong>. Remaining sequences will follow as prioritized.</p>
-        <p class="lede" style="margin-top:-12px;">A new in-context <strong>AI assistant</strong> inside the Decision Diamond helps customers translate intent into rules. We&rsquo;re starting here because it&rsquo;s where customers spend the most effort, setting up our broader move toward an AI-oriented product.</p>
-        <p class="lede" style="margin-top:-12px;">In parallel, a <strong>UX audit</strong> of the current Decision Diamond surfaces 8 findings, including critical bugs that affect the success of 2.0. Some fixes apply to the automation builder broadly; others to Decision Diamond specifically. PM leads prioritization, and several improvements will ship ahead of the core work.</p>
+        <p class="lede">Today Decision Diamond can only branch on <strong>Contact</strong>. Customers end up stitching automations and tags together to handle work that really lives on deals, invoices, and appointments. This project lets Decision Diamond read those objects alongside Contact. Customers can then build estimate follow-ups, post-job reviews, no-show handling, and deal-value routing in a single node.</p>
+        <p class="lede" style="margin-top:-12px;">Phase I is how we validate the concept. The four priority trigger sequences are <strong>Product is purchased, Appointments, Pipeline stage is moved,</strong> and <strong>Quote status</strong>. The remaining sequences follow based on priority.</p>
+        <p class="lede" style="margin-top:-12px;">A new in-context <strong>AI assistant</strong> inside Decision Diamond helps customers turn what they want into working rules. We&rsquo;re starting here because rule setup is where customers spend the most effort, and it sets up our broader move toward an AI-oriented product.</p>
+        <p class="lede" style="margin-top:-12px;">In parallel, a <strong>UX audit</strong> of today&rsquo;s Decision Diamond surfaced 8 findings, including critical bugs that put 2.0 at risk. Some fixes apply to the whole automation builder, while others are specific to Decision Diamond. PM owns prioritization, and several fixes will ship ahead of the core work.</p>
       </div>
       <aside class="meta-col">
         <div class="meta-block">
@@ -2441,7 +2443,7 @@ white-space: nowrap;
           <div class="value">Jialing Chen</div>
         </div>
         <div class="meta-block">
-          <div class="label">Engineer manager</div>
+          <div class="label">Engineering manager</div>
           <div class="value">Priya Lennox</div>
         </div>
         <div class="meta-block">
@@ -2477,7 +2479,7 @@ white-space: nowrap;
 
     <div style="margin-top:48px;">
       <h3 style="font-size:17px;margin-bottom:4px;">Confluence pages</h3>
-      <div style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">Source docs referenced throughout this page. Click to open in Confluence.</div>
+      <div style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">Source docs referenced throughout this page. Click any card to open it in Confluence.</div>
       <div class="confluence-grid">
         <a class="confluence-card" href="https://thryv.atlassian.net/wiki/x/PwBx-w" target="_blank" rel="noopener">
           <div class="source-row">
@@ -2522,18 +2524,18 @@ white-space: nowrap;
 
     <div class="problem-split">
       <div class="problem-narrative">
-        <p class="problem-lede">Decision Diamond is constrained on two fronts. The engine doesn&rsquo;t see the objects customers actually work with, and the current configuration has discoverability issues and usability gaps. Together they erode customer trust and cap what we can deliver.</p>
+        <p class="problem-lede">Decision Diamond is held back on two fronts. The engine can&rsquo;t see the objects customers actually work with, and the current configuration is hard to discover and hard to use. Together they erode customer trust and limit what we can deliver.</p>
 
         <div class="problem-block">
           <div class="p-eyebrow">01 / Engine</div>
           <h3>Object blindness</h3>
-          <p>Local service businesses operate on deals, jobs, appointments, and invoices, but the automation engine is contact-centric. Triggers, conditions, and actions all assume Contact is the primary object. The vertical use cases template builders need to ship (estimate follow-ups, post-job review requests, no-show handling, deal-value routing) aren&rsquo;t possible today without workarounds: multiple automations, complex tag chains, and manual intervention.</p>
+          <p>Local service businesses run on deals, jobs, appointments, and invoices. The automation engine is built around contacts, so triggers, conditions, and actions all assume Contact is the main object. Template builders need to ship vertical use cases like estimate follow-ups, post-job review requests, no-show handling, and deal-value routing. Today none of these work without workarounds such as multiple automations, complex tag chains, and manual steps.</p>
         </div>
 
         <div class="problem-block">
           <div class="p-eyebrow">02 / Configuration UX</div>
           <h3>Discoverability and usability gaps</h3>
-          <p>The current Decision Diamond has layered issues uncovered in the UX audit. Discoverability gaps make key actions and states hard to find. Usability problems force valid configurations into clunkier paths than necessary. Together, the audit findings block users from configuring, validating, and publishing branching logic with confidence.</p>
+          <p>The UX audit found layered issues in today&rsquo;s Decision Diamond. Key actions and states are hard to find, and valid setups take clunkier paths than they should. As a result, users can&rsquo;t configure, validate, and publish branching logic with confidence.</p>
         </div>
 
         <a class="source-tag" href="https://thryv.atlassian.net/wiki/x/RIBnBAE" target="_blank" rel="noopener">
@@ -2546,7 +2548,7 @@ white-space: nowrap;
         <div class="ev-label">Evidence</div>
         <div class="ev-stat">
           <span class="ev-stat-num">0/6</span>
-          <span class="ev-stat-caption">Jobs that can be done in a straightforward configuration today.</span>
+          <span class="ev-stat-caption">Jobs customers can set up with a simple configuration today.</span>
         </div>
 
         <ul class="ev-job-list">
@@ -2619,27 +2621,27 @@ white-space: nowrap;
   <section id="scope">
     <div class="eyebrow">Product scope</div>
     <h2>What we&rsquo;re building and who it&rsquo;s for</h2>
-    <p class="lede">Decision Diamond evaluates one object today: <strong>Contact</strong>. This project expands it to evaluate <strong>deals, invoices, appointments,</strong> and <strong>companies</strong>, the objects local service businesses actually run their work on. A second workstream addresses the UX audit of the current Decision Diamond so the expanded experience is usable end-to-end.</p>
+    <p class="lede">Today Decision Diamond evaluates one object, <strong>Contact</strong>. This project expands it to <strong>deals, invoices, appointments,</strong> and <strong>companies</strong>. These are the objects local service businesses actually run on. A second workstream fixes the issues from the UX audit so the expanded experience works end to end.</p>
 
     <!-- Audience -->
     <h3 style="margin-top:40px;font-size:20px;font-weight:700;letter-spacing:-0.01em;">Audience</h3>
-    <p style="color:var(--text-muted);max-width:760px;margin-bottom:0;">Three audiences in priority order: the ICP we&rsquo;re serving, the people who build templates on their behalf, and the operators inside those accounts who edit and validate what gets shipped to them.</p>
+    <p style="color:var(--text-muted);max-width:760px;margin-bottom:0;">Three audiences, in priority order. The ICP we serve, the builders who create templates for them, and the operators inside those accounts who edit and validate what we ship.</p>
 
     <div class="audience-row" style="margin-top:18px;margin-bottom:24px;">
       <div class="audience-card">
         <div class="role">Primary ICP · validated</div>
         <div class="name">Local service businesses</div>
-        <div class="desc">12 verticals confirmed by Tyler Garns and product marketing on April 13, 2026. Field service and trades dominate (HVAC, plumbing, roofing, cleaning, pest control). Healthcare is the outlier with HIPAA and different tech maturity. These users think in deals, jobs, appointments, and invoices, not in tags applied to contacts.</div>
+        <div class="desc">12 verticals confirmed by Tyler Garns and product marketing on April 13, 2026. Field service and trades lead the list, with HVAC, plumbing, and roofing alongside cleaning and pest control. Healthcare is the outlier because of HIPAA and a different level of tech maturity. These businesses think in deals, jobs, appointments, and invoices rather than contact tags.</div>
       </div>
       <div class="audience-card template">
         <div class="role">Direct configurators</div>
         <div class="name">Template builders</div>
-        <div class="desc">Tyler&rsquo;s team, onboarding coaches, and partners. They build the campaigns that get launched on a customer&rsquo;s first onboarding call, so they configure Decision Diamonds repeatedly and feel every UX gap directly.</div>
+        <div class="desc">Tyler&rsquo;s team, onboarding coaches, and partners. They build the campaigns that launch on a customer&rsquo;s first onboarding call, so they configure Decision Diamonds over and over and feel every UX gap firsthand.</div>
       </div>
       <div class="audience-card end-operator">
         <div class="role">Downstream</div>
         <div class="name">End operators inside ICP accounts</div>
-        <div class="desc">CRM admins, marketing operators, and small-business owners who view, edit, and validate templated automations in their account. They rely on Test, Save, and clear branch labeling to trust what they&rsquo;re publishing, which are exactly the gaps the audit surfaces.</div>
+        <div class="desc">CRM admins, marketing operators, and small business owners. They review, edit, and validate the automations in their account. Before publishing, they rely on Test, Save, and clear branch labels to trust what they built. Those are exactly the gaps the audit found.</div>
       </div>
     </div>
 
@@ -2649,7 +2651,7 @@ white-space: nowrap;
           <span class="num">01</span>
           <h3>Triggers</h3>
         </div>
-        <p class="intro">Five priority sequences from the May 4 Vision Alignment. Phase I ships the first four; Deal stage moved follows as prioritized.</p>
+        <p class="intro">Five priority sequences came out of the May 4 Vision Alignment. Phase I ships the first four, and Deal stage moved follows based on priority.</p>
         <div class="trig-list">
           <div class="trig-row"><span class="idx">01</span><span class="nm">Quote status</span><span class="pill v1">New · V1</span><span class="ds">Sent, Viewed, Accepted</span></div>
           <div class="trig-row"><span class="idx">02</span><span class="nm">Pipeline stage moved</span><span class="pill v1">New · V1</span><span class="ds">When deal moves in or out of a stage</span></div>
@@ -2664,7 +2666,7 @@ white-space: nowrap;
           <span class="num">02</span>
           <h3>Objects</h3>
         </div>
-        <p class="intro">Decision Diamond starts evaluating four new objects on top of Contact, so customers can branch on the data their business actually runs on.</p>
+        <p class="intro">Decision Diamond can now evaluate four new objects on top of Contact, so customers can branch on the data their business actually runs on.</p>
         <div class="obj-list">
           <div class="obj-row">
             <span class="nm">Contact</span>
@@ -2753,23 +2755,23 @@ white-space: nowrap;
         <span class="num">03</span>
         <h3>Verticals</h3>
       </div>
-      <p class="intro">12 validated verticals. 6 prioritized. Field service and trades dominate. Healthcare runs in a separate compliance lane.</p>
+      <p class="intro">12 validated verticals with 6 prioritized. Field service and trades lead, and healthcare runs in its own compliance lane.</p>
       <div class="scope-vert-grid">
-        <span class="vchip priority">Home Services / HVAC</span>
+        <span class="vchip priority">Home services / HVAC</span>
         <span class="vchip priority">Roofers</span>
         <span class="vchip priority">Plumbers</span>
         <span class="vchip priority">Cleaners</span>
         <span class="vchip priority">Healthcare<span class="hipaa">HIPAA</span></span>
-        <span class="vchip priority">Pest Control</span>
-        <span class="vchip">Auto Repair</span>
+        <span class="vchip priority">Pest control</span>
+        <span class="vchip">Auto repair</span>
         <span class="vchip">Veterinary</span>
-        <span class="vchip">Septic Tank &amp; Systems</span>
-        <span class="vchip">Tree &amp; Shrub Services</span>
-        <span class="vchip">Asphalt &amp; Paving</span>
-        <span class="vchip">Moving &amp; Storage</span>
+        <span class="vchip">Septic tank &amp; systems</span>
+        <span class="vchip">Tree &amp; shrub services</span>
+        <span class="vchip">Asphalt &amp; paving</span>
+        <span class="vchip">Moving &amp; storage</span>
       </div>
       <div class="scope-vert-note">
-        <strong>Out of scope:</strong> Salon, real estate, coaches, consultants, and e-commerce were referenced previously but excluded from the validated set.
+        <strong>Out of scope:</strong> Salon and real estate came up earlier but aren&rsquo;t in the validated set. The same goes for coaches, consultants, and e-commerce.
       </div>
     </div>
 
@@ -2778,7 +2780,7 @@ white-space: nowrap;
         <span class="num">04</span>
         <h3>v1 release</h3>
       </div>
-      <p class="intro">What ships in v1 across both workstreams.</p>
+      <p class="intro">Everything shipping in v1 across both workstreams.</p>
 
       <div class="v1-counts">
         <span class="v1-count-pill in"><strong>10</strong> shipping</span>
@@ -2791,7 +2793,7 @@ white-space: nowrap;
             <span class="v1-card-count">3</span>
           </div>
           <ul class="v1-list">
-            <li>4 priority triggers: Product is purchased, Appointments, Quote status, Pipeline stage moved</li>
+            <li>4 priority triggers covering Product is purchased, Appointments, Quote status, and Pipeline stage moved</li>
             <li>Branch on Deals, Invoices, and Appointments</li>
             <li>Config panel adapts to the selected object</li>
           </ul>
@@ -2820,7 +2822,7 @@ white-space: nowrap;
   <section id="spec">
     <div class="eyebrow">Spec</div>
     <h2>Complete trigger entity attribute reference</h2>
-    <p class="lede">Detailed attribute reference for each priority trigger sequence. Source of truth for grooming with PM and engineering.</p>
+    <p class="lede">A detailed attribute reference for each priority trigger. This is the source of truth for grooming with PM and engineering.</p>
 
     <div class="spec-trigger">
       <div class="spec-trigger-head">
@@ -2853,7 +2855,7 @@ white-space: nowrap;
             <td><span class="spec-req-pill conditional">Conditional</span></td>
             <td class="type">Multi-select with categories</td>
             <td>Full product catalog. Each item shows its category.</td>
-            <td class="dep">Only appears when purchase type = Product. Hidden when Any purchase.</td>
+            <td class="dep">Only appears when purchase type is Product. Hidden for Any purchase.</td>
           </tr>
           <tr>
             <td class="attr">Payment type</td>
@@ -2890,7 +2892,7 @@ white-space: nowrap;
             <td><span class="spec-req-pill yes">Yes</span></td>
             <td class="type">Single-select</td>
             <td><strong>Sent</strong>, <strong>Viewed</strong>, <strong>Accepted</strong> (payment options unavailable).</td>
-            <td class="dep">None. Only attribute on this trigger.</td>
+            <td class="dep">None. This is the only attribute on this trigger.</td>
           </tr>
         </tbody>
       </table>
@@ -2934,7 +2936,7 @@ white-space: nowrap;
             <td><span class="spec-req-pill yes">Yes</span></td>
             <td class="type">Single-select</td>
             <td>List of all stages belonging to the selected pipeline.</td>
-            <td class="dep">Dependent on Pipeline. Stages shown change with pipeline selection.</td>
+            <td class="dep">Depends on Pipeline. The stage list updates when the pipeline changes.</td>
           </tr>
         </tbody>
       </table>
@@ -2971,7 +2973,7 @@ white-space: nowrap;
             <td><span class="spec-req-pill yes">Yes</span></td>
             <td class="type">Single-select</td>
             <td>List of all appointment types configured in the account, each shown with duration.</td>
-            <td class="dep">Always shown. Same field under all three When-a-contact options.</td>
+            <td class="dep">Always shown. Same field for all three &ldquo;When a contact&rdquo; options.</td>
           </tr>
         </tbody>
       </table>
@@ -2980,9 +2982,9 @@ white-space: nowrap;
     <div class="spec-logic-summary">
       <h3>Conditional logic summary</h3>
       <ul>
-        <li><strong>Product is purchased</strong>: the &ldquo;Select products&rdquo; picker only appears when &ldquo;Select purchase type&rdquo; = Product. Choosing &ldquo;Any purchase&rdquo; removes it while Payment type stays visible.</li>
-        <li><strong>Pipeline stage is moved</strong>: the &ldquo;Stage&rdquo; dropdown is populated dynamically based on the selected &ldquo;Pipeline&rdquo;. Changing pipeline replaces the stage list.</li>
-        <li><strong>Quote status</strong> and <strong>Appointment</strong>: no conditional show/hide. All fields visible regardless of upper drop-down values.</li>
+        <li><strong>Product is purchased</strong> shows the &ldquo;Select products&rdquo; picker only when &ldquo;Select purchase type&rdquo; is Product. Choosing &ldquo;Any purchase&rdquo; hides it, and Payment type stays visible.</li>
+        <li><strong>Pipeline stage is moved</strong> fills the &ldquo;Stage&rdquo; dropdown based on the selected &ldquo;Pipeline.&rdquo; Changing the pipeline replaces the stage list.</li>
+        <li><strong>Quote status</strong> and <strong>Appointment</strong> have no conditional show or hide. All fields stay visible no matter what&rsquo;s selected above.</li>
       </ul>
     </div>
 
@@ -2996,7 +2998,7 @@ white-space: nowrap;
   <section id="poc">
     <div class="eyebrow">POC</div>
     <h2>Interactive proof of concept</h2>
-    <p class="lede">Live clickable prototype of the Decision Diamond 2.0 configuration experience. Interact with it directly below, or open in a new tab for full-screen review.</p>
+    <p class="lede">A clickable prototype of the Decision Diamond 2.0 configuration experience. Try it below, or open it in a new tab for a full-screen review.</p>
 
     <div class="workspace-grid">
 
@@ -3009,7 +3011,7 @@ white-space: nowrap;
             <button type="button" class="poc-version" data-version="v2" aria-pressed="false">v2</button>
           </div>
         </div>
-        <div class="desc" id="poc-desc">Built from <code>Decision-Diamond-Prototype/vue-decision-diamond</code> and hosted with this page. Click through the flow as if it were a real product.</div>
+        <div class="desc" id="poc-desc">Built from <code>Decision-Diamond-Prototype/vue-decision-diamond</code> and hosted alongside this page. Click through the flow as you would in the real product.</div>
         <div class="poc-frame">
           <iframe
             id="poc-iframe"
@@ -3031,9 +3033,9 @@ white-space: nowrap;
   <!-- ====== SUMMARY (AT-A-GLANCE TABLE) ====== -->
   <section id="findings">
     <div class="eyebrow">UX audit workstream · current Decision Diamond</div>
-    <h2>Trust-layer fixes — eight findings on the existing DD</h2>
-    <p class="lede">A parallel workstream to entity expansion: a UX audit of the <strong>current</strong> Decision Diamond. These findings exist independent of the new entities being added — they&rsquo;re structural gaps in today&rsquo;s configuration UX that will surface louder once DD is evaluating five entities instead of one. Fixing them in parallel keeps the expanded engine trustworthy at launch.</p>
-    <p class="lede" style="margin-top:-12px;">Each finding is tagged with type, scope, and severity. Click an item to jump to the full write-up with screenshot, pain point, and recommendation.</p>
+    <h2>Eight trust-layer fixes for the existing DD</h2>
+    <p class="lede">A parallel workstream to object expansion that audits the <strong>current</strong> Decision Diamond. These issues exist whether or not we add new objects. They&rsquo;re structural gaps in today&rsquo;s configuration UX, and they&rsquo;ll get louder once DD evaluates five objects instead of one. Fixing them now keeps the expanded experience trustworthy at launch.</p>
+    <p class="lede" style="margin-top:-12px;">Each finding is tagged by type, scope, and severity. Click any row to jump to the full write-up with screenshot, pain point, and recommendation.</p>
 
     <table class="summary-table" id="findings-summary-table">
       <thead>
@@ -3088,7 +3090,7 @@ white-space: nowrap;
         </tr>
         <tr data-severity-rank="3" data-aud-id="aud-06">
           <td class="id">AUD-06</td>
-          <td class="issue">Decision diamond not fully responsive</td>
+          <td class="issue">Decision Diamond not fully responsive</td>
           <td>Bug</td>
           <td><span class="scope-dot dd"></span>Decision Diamond</td>
           <td class="severity"><span class="pill-severity medium">Medium</span></td>
@@ -3131,15 +3133,15 @@ white-space: nowrap;
             <img src="images/aud-05-title-scaling.png" alt="Decision diamond panel with the hardcoded heading 'What rules must a contact meet to be allowed into the Sequence sequence?' highlighted in red, showing the title that doesn't scale across entity types" onerror="this.classList.add('broken')">
             <div class="placeholder">
               <div class="icon">▢</div>
-              <div class="label">Image 5 — hardcoded title highlighted in red</div>
+              <div class="label">Image 5 · hardcoded title highlighted in red</div>
               <div class="filename">images/aud-05-title-scaling.png</div>
             </div>
           </div>
           <div class="label-row">Pain point</div>
-          <p class="pain">The current heading hardcodes &ldquo;What rules must a contact meet to be allowed into the &lsquo;Sequence&rsquo; sequence?&rdquo; As the product introduces additional entities beyond Contact and Sequence, this copy won&rsquo;t carry over and will require manual updates for each new entity.</p>
+          <p class="pain">The heading is hardcoded as &ldquo;What rules must a contact meet to be allowed into the &lsquo;Sequence&rsquo; sequence?&rdquo; Once we add objects beyond Contact and Sequence, this copy won&rsquo;t fit and would need a manual update for every new object.</p>
           <hr class="divider">
           <div class="label-row">Recommendation</div>
-          <p class="rec">Shorten the heading to &ldquo;Rules for &lsquo;[Entity Name]&rsquo;&rdquo; with the entity name dynamically bound, and remove the descriptive sub-question. Pattern then scales across current and future entity types.</p>
+          <p class="rec">Shorten the heading to &ldquo;Rules for &lsquo;[Entity Name]&rsquo;&rdquo; with the name filled in dynamically, and drop the sub-question. The pattern then scales to every current and future object type.</p>
         </div>
       </article>
 
@@ -3151,7 +3153,7 @@ white-space: nowrap;
             <span class="aud">AUD-06</span>
             <span class="pill-severity medium">Medium</span>
           </div>
-          <h3>Decision diamond not fully responsive</h3>
+          <h3>Decision Diamond not fully responsive</h3>
           <div class="tags">
             <span>Bug</span><span class="sep">·</span>
             <span><span class="scope-dot dd"></span>Decision Diamond</span>
@@ -3160,15 +3162,15 @@ white-space: nowrap;
             <img src="images/aud-06-responsive.png" alt="Decision diamond configuration panel overflowing the dimmed backdrop area at a smaller screen size, showing how the layout breaks responsively" onerror="this.classList.add('broken')">
             <div class="placeholder">
               <div class="icon">▢</div>
-              <div class="label">Image 1 — panel overflows backdrop at smaller width</div>
+              <div class="label">Image 1 · panel overflows backdrop at smaller width</div>
               <div class="filename">images/aud-06-responsive.png</div>
             </div>
           </div>
           <div class="label-row">Pain point</div>
-          <p class="pain">The current structure is retained, but layout breaks exist within that structure at smaller breakpoints, causing fields and panels to overflow or misalign.</p>
+          <p class="pain">The overall structure holds up, but at smaller breakpoints fields and panels overflow or fall out of alignment.</p>
           <hr class="divider">
           <div class="label-row">Recommendation</div>
-          <p class="rec">Full responsive audit in progress. Findings will be documented per breakpoint with annotated specs before engineering handoff. Target breakpoints: 1440 / 1024 / 768.</p>
+          <p class="rec">A full responsive audit is in progress. Findings will be documented per breakpoint with annotated specs before engineering handoff. Target breakpoints are 1440, 1024, and 768.</p>
         </div>
       </article>
 
@@ -3194,10 +3196,10 @@ white-space: nowrap;
             </div>
           </div>
           <div class="label-row">Pain point</div>
-          <p class="pain">The configuration screen is missing a Save button. Users have no clear way to commit their changes or confirm that work has been persisted, breaking a foundational expectation of any configuration flow.</p>
+          <p class="pain">The configuration screen has no Save button. Users have no clear way to commit their changes or confirm their work was saved, which breaks a basic expectation of any configuration flow.</p>
           <hr class="divider">
           <div class="label-row">Recommendation</div>
-          <p class="rec">Add a primary Save action with explicit enabled / disabled / saved states. Confirm with engineering whether auto-save exists; if so, surface persistence status so users have visible feedback.</p>
+          <p class="rec">Add a primary Save action with clear enabled, disabled, and saved states. Confirm with engineering whether auto-save exists. If it does, show save status so users get visible feedback.</p>
         </div>
       </article>
 
@@ -3218,15 +3220,15 @@ white-space: nowrap;
             <img src="images/aud-01-test-wrong.png" alt="Test panel modal showing red errors warning that the contact would fall out of the automation, with prompts to check rules or create a catch-all sequence, even when input matches the configured rule criteria" onerror="this.classList.add('broken')">
             <div class="placeholder">
               <div class="icon">▢</div>
-              <div class="label">Image 2 — Test panel modal with red errors</div>
+              <div class="label">Image 2 · Test panel modal with red errors</div>
               <div class="filename">images/aud-01-test-wrong.png</div>
             </div>
           </div>
           <div class="label-row">Pain point</div>
-          <p class="pain">The Test action runs but produces the wrong outcome even when input matches the configured rule criteria. Users rely on Test to validate logic before publishing — an unreliable Test is worse than no Test, because users will publish based on misleading feedback.</p>
+          <p class="pain">The Test action runs but returns the wrong outcome, even when the input matches the configured rules. Users rely on Test to check their logic before publishing. An unreliable Test is worse than no Test, because users will publish based on misleading feedback.</p>
           <hr class="divider">
           <div class="label-row">Recommendation</div>
-          <p class="rec">Engineering investigation into the evaluation logic is required. In the interim, surface a known-issue state on the Test panel so users do not act on incorrect output.</p>
+          <p class="rec">Engineering needs to investigate the evaluation logic. Until it&rsquo;s fixed, show a known-issue state on the Test panel so users don&rsquo;t act on incorrect results.</p>
         </div>
       </article>
 
@@ -3247,15 +3249,15 @@ white-space: nowrap;
             <img src="images/aud-08-default-rulesets.png" alt="Configuration screen showing two rule set blocks rendered by default with the second one empty" onerror="this.classList.add('broken')">
             <div class="placeholder">
               <div class="icon">▢</div>
-              <div class="label">Pair: Image 2 (same source as AUD-05 — two rule sets visible)</div>
+              <div class="label">Pair: Image 2 (same source as AUD-05 with two rule sets visible)</div>
               <div class="filename">images/aud-08-default-rulesets.png</div>
             </div>
           </div>
           <div class="label-row">Pain point</div>
-          <p class="pain">The screen always renders two rule sets by default, even when only Rule 1 is needed. The empty second set creates visual noise and implies a required input that isn&rsquo;t actually required.</p>
+          <p class="pain">The screen always shows two rule sets by default, even when only one is needed. The empty second set adds visual noise and suggests an input that isn&rsquo;t actually required.</p>
           <hr class="divider">
           <div class="label-row">Recommendation</div>
-          <p class="rec">Default to one rule set, with an &ldquo;Add rule set&rdquo; affordance for users who need more. Aligns with progressive disclosure.</p>
+          <p class="rec">Default to one rule set and offer an &ldquo;Add rule set&rdquo; option for users who need more. This follows progressive disclosure.</p>
         </div>
       </article>
 
@@ -3281,10 +3283,10 @@ white-space: nowrap;
             </div>
           </div>
           <div class="label-row">Pain point</div>
-          <p class="pain">When two downstream branches target sequences that share the same name, both panels render with the identical title &ldquo;Rules for: Sequence.&rdquo; No path indicator and no numbering — users cannot tell which rule set controls which target. Error cost is high; users can edit the wrong branch without noticing.</p>
+          <p class="pain">When two branches lead to sequences with the same name, both panels show the identical title &ldquo;Rules for: Sequence.&rdquo; With no path indicator or numbering, users can&rsquo;t tell which rule set controls which branch. The cost of a mistake is high, because users can edit the wrong branch without noticing.</p>
           <hr class="divider">
           <div class="label-row">Recommendation</div>
-          <p class="rec">At minimum, auto-append a disambiguator at the panel level (e.g., &ldquo;Sequence 1&rdquo; / &ldquo;Sequence 2&rdquo;). Stronger: auto-rename every sequence to match the name of its function so identity is clear at the source.</p>
+          <p class="rec">At minimum, add a panel label that tells them apart, such as &ldquo;Sequence 1&rdquo; and &ldquo;Sequence 2.&rdquo; Better yet, auto-rename each sequence after what it does so its identity is clear at the source.</p>
         </div>
       </article>
 
@@ -3310,10 +3312,10 @@ white-space: nowrap;
             </div>
           </div>
           <div class="label-row">Pain point</div>
-          <p class="pain">The diamond shape has one input and two outputs, but on the canvas it renders as a small icon with arrows identical to linear flow arrows. No Yes/No, True/False, or match labeling — users can&rsquo;t tell which path is which without opening the node.</p>
+          <p class="pain">The diamond has one input and two outputs, but on the canvas it shows up as a small icon with the same arrows as a linear flow. There are no Yes/No, True/False, or match labels, so users can&rsquo;t tell which path is which without opening the node.</p>
           <hr class="divider">
           <div class="label-row">Recommendation</div>
-          <p class="rec">Add explicit branch labels on the canvas (e.g., &ldquo;Matches&rdquo; / &ldquo;Doesn&rsquo;t match&rdquo;) and visually differentiate branching arrows from linear flow arrows. Applies to any future branching step in the automation builder.</p>
+          <p class="rec">Add clear branch labels on the canvas, such as &ldquo;Matches&rdquo; and &ldquo;Doesn&rsquo;t match,&rdquo; and make branching arrows look different from linear flow arrows. This applies to any future branching step in the automation builder.</p>
         </div>
       </article>
 
@@ -3339,10 +3341,10 @@ white-space: nowrap;
             </div>
           </div>
           <div class="label-row">Pain point</div>
-          <p class="pain">The orange dot and &ldquo;Ready to publish&rdquo; tooltip are not visually differentiated from warning / error states elsewhere on the canvas. Orange/yellow conventionally signals &ldquo;attention needed&rdquo; — using it to mean &ldquo;ready&rdquo; creates color-semantic conflict and trains users to ignore real warning states.</p>
+          <p class="pain">The orange dot and &ldquo;Ready to publish&rdquo; tooltip look the same as warning and error states elsewhere on the canvas. Orange and yellow usually signal &ldquo;attention needed.&rdquo; Using them to mean &ldquo;ready&rdquo; sends mixed signals and trains users to ignore real warnings.</p>
           <hr class="divider">
           <div class="label-row">Recommendation</div>
-          <p class="rec">Reserve orange/yellow for warning states. Use a distinct color (e.g., green) for positive ready states. Audit color usage across the automation builder for system-wide consistency.</p>
+          <p class="rec">Reserve orange and yellow for warnings. Use a distinct color, like green, for ready states. Then audit color usage across the automation builder so it stays consistent.</p>
         </div>
       </article>
 
@@ -3360,55 +3362,40 @@ white-space: nowrap;
   <!-- ====== SUCCESS METRICS ====== -->
   <section id="metrics">
     <div class="eyebrow">Success metrics</div>
-    <h2>How we&rsquo;ll know v1 worked (TBD)</h2>
-    <p class="lede">Two metric families: <strong>entity expansion adoption</strong> (the main project — proving local service businesses use the new entity-aware capabilities) and <strong>trust signals</strong> (the audit workstream — proving the configuration UX no longer blocks confidence). Baselines instrumented 4 weeks pre-release; primary read at 8 weeks post-release.</p>
+    <h2>How we&rsquo;ll know v1 worked</h2>
+    <p class="lede">We track two sets of metrics. <strong>Object expansion adoption</strong> tells us whether local service businesses actually use the new object-aware capabilities. <strong>Trust signals</strong> tell us whether the audit fixes removed the friction that blocks confident publishing. We set baselines 4 weeks before release and do the primary read 8 weeks after.</p>
 
     <h3 style="margin-top:24px;">Object expansions (main project)</h3>
-    <div class="kpi-row" style="margin-top:14px;">
+    <div class="kpi-row cols-3" style="margin-top:14px;">
       <div class="kpi">
-        <div class="name">Entity-aware DD adoption</div>
+        <div class="name">Object adoption</div>
         <div class="target">35%+</div>
-        <div class="desc">% of new Decision Diamond configs evaluating a non-contact entity within 8 weeks of release.</div>
+        <div class="desc">Share of new Decision Diamond configs that evaluate a non-contact object within 8 weeks of release.</div>
       </div>
       <div class="kpi">
-        <div class="name">Vertical template uptake</div>
+        <div class="name">New account uptake</div>
         <div class="target">50%+</div>
-        <div class="desc">% of new ICP accounts launching at least one vertical-aware automation in their first 30 days.</div>
+        <div class="desc">Share of new ICP accounts that publish a Decision Diamond using a non-contact object in their first 30 days.</div>
       </div>
       <div class="kpi">
-        <div class="name">Frankenstein workaround reduction</div>
-        <div class="target">−60%</div>
-        <div class="desc">Multi-automation + tag-gymnastics patterns replaced by single entity-aware DD configs.</div>
-      </div>
-      <div class="kpi">
-        <div class="name">Time-to-first-template</div>
+        <div class="name">Time to first automation</div>
         <div class="target">−40%</div>
-        <div class="desc">New ICP account to first published templated automation. Indicator of onboarding velocity.</div>
+        <div class="desc">Days from account creation to first published Decision Diamond for new ICP accounts. Measured vs. baseline at 8 weeks.</div>
       </div>
     </div>
 
     <h3 style="margin-top:32px;">Trust signals (UX audit workstream)</h3>
 
-    <div class="kpi-row">
+    <div class="kpi-row cols-2">
       <div class="kpi">
         <div class="name">Publish completion rate</div>
         <div class="target">+15%</div>
-        <div class="desc">Sequences started → sequences published, segmented by Decision-Diamond vs. linear-only.</div>
-      </div>
-      <div class="kpi">
-        <div class="name">Wrong-branch edit incidence</div>
-        <div class="target">−50%</div>
-        <div class="desc">Undo events within 60s of saving a Decision Diamond config. Proxy for AUD-03 confusion.</div>
-      </div>
-      <div class="kpi">
-        <div class="name">Test reliability</div>
-        <div class="target">95%+</div>
-        <div class="desc">% of Test outcomes matching actual production behavior. Directly addresses AUD-01.</div>
+        <div class="desc">Share of new automations that get published, split by those with and without a Decision Diamond.</div>
       </div>
       <div class="kpi">
         <div class="name">Time-to-publish</div>
         <div class="target">−30%</div>
-        <div class="desc">From node-drop to publish for a new Decision Diamond config.</div>
+        <div class="desc">Median time from creating a Decision Diamond to publishing it.</div>
       </div>
     </div>
 
@@ -3425,39 +3412,21 @@ white-space: nowrap;
         <tbody>
           <tr>
             <td class="issue">Publish completion rate</td>
-            <td>AUD-02, AUD-01, AUD-03</td>
-            <td>Quantitative funnel</td>
-            <td class="severity" style="text-align:right;">Product analytics</td>
-          </tr>
-          <tr>
-            <td class="issue">Wrong-branch edit incidence</td>
-            <td>AUD-03, AUD-04</td>
-            <td>Undo within 60s of save</td>
-            <td class="severity" style="text-align:right;">Product analytics</td>
-          </tr>
-          <tr>
-            <td class="issue">Test reliability</td>
-            <td>AUD-01</td>
-            <td>Test vs. production outcome match</td>
-            <td class="severity" style="text-align:right;">Engineering instrumentation</td>
+            <td>AUD-01, AUD-02, AUD-03</td>
+            <td>Created vs. published automations</td>
+            <td class="severity" style="text-align:right;">Automation data</td>
           </tr>
           <tr>
             <td class="issue">Time-to-publish</td>
             <td>AUD-05, AUD-06, AUD-08</td>
-            <td>Median time from node-drop to publish</td>
-            <td class="severity" style="text-align:right;">Product analytics</td>
+            <td>Median time from created to published</td>
+            <td class="severity" style="text-align:right;">Automation data</td>
           </tr>
           <tr>
             <td class="issue">Support ticket volume (automation-related)</td>
             <td>All</td>
             <td>Tickets mentioning &ldquo;save&rdquo;, &ldquo;test&rdquo;, &ldquo;wrong branch&rdquo;</td>
             <td class="severity" style="text-align:right;">Support CRM</td>
-          </tr>
-          <tr>
-            <td class="issue">Post-publish micro-survey (NPS)</td>
-            <td>All</td>
-            <td>Single in-product question</td>
-            <td class="severity" style="text-align:right;">In-product survey</td>
           </tr>
           <tr>
             <td class="issue">Warning/error misinterpretation rate</td>
@@ -3472,9 +3441,9 @@ white-space: nowrap;
     <div class="secondary-list">
       <h4>Counter-metrics (so we don&rsquo;t game the numbers)</h4>
       <ul>
-        <li>Drop-off at &ldquo;Add rule set&rdquo; — if AUD-08&rsquo;s progressive disclosure hides functionality users need, we&rsquo;ll see them stuck at a single rule set when their intent requires more.</li>
-        <li>Increase in published-but-broken automations — if Save and Test fixes give false confidence, ticket volume on logic errors could rise even as publish rate climbs.</li>
-        <li>Adoption of branching automations as a share of all automations — should hold or grow; a drop would suggest the rework made the feature feel more complex, not less.</li>
+        <li>Share of Decision Diamonds with 2 or more rule sets. A sharp drop after launch would suggest the &ldquo;Add rule set&rdquo; option from AUD-08 is too hard to find.</li>
+        <li>Support tickets about automation logic errors. If this rises while publish rate climbs, the Save and Test fixes may be giving false confidence.</li>
+        <li>Adoption of branching automations as a share of all automations. It should hold or grow, and a drop would suggest the rework made the feature feel more complex rather than less.</li>
       </ul>
     </div>
   </section>
@@ -3483,7 +3452,7 @@ white-space: nowrap;
   <section id="testing">
     <div class="eyebrow">Testing plan</div>
     <h2>Validating both workstreams</h2>
-    <p class="lede">Qualitative validation before engineering scoping, quantitative pre/post tracking, and an A/B test for new ICP accounts. Phase 1 tasks now cover <strong>both</strong> entity expansion (configuring a Decision Diamond against a non-contact entity for a vertical scenario) and trust-layer audit fixes (Save, Test, branch identity). Per-finding validation criteria for the audit findings sit below the phases.</p>
+    <p class="lede">Qualitative validation before engineering scoping, quantitative pre and post tracking, and an A/B test for new ICP accounts. Phase 1 tasks cover <strong>both</strong> workstreams. That means configuring a Decision Diamond against a non-contact object for a vertical scenario, plus the trust fixes for Save, Test, and branch identity. Validation criteria for each audit finding sit below the phases.</p>
 
     <div class="phase-stack">
 
@@ -3491,17 +3460,17 @@ white-space: nowrap;
         <div class="number">01</div>
         <div>
           <h3>Pre-launch moderated usability test</h3>
-          <div class="method">Qualitative · 6–8 participants · 45 min</div>
-          <p>Participants split between new users (no Decision Diamond experience) and existing users (have published ≥3 automations). Designed to surface blockers before engineering scopes the redesign.</p>
+          <div class="method">Qualitative · 6 to 8 participants · 45 min</div>
+          <p>Participants are split between new users with no Decision Diamond experience and existing users who have published 3 or more automations. The goal is to surface blockers before engineering scopes the redesign.</p>
           <p style="margin-top:8px;"><strong>Tasks:</strong></p>
           <ul>
             <li>Configure a Decision Diamond that routes contacts whose First Name equals &ldquo;Jake&rdquo; into Sequence A, others into Sequence B</li>
-            <li>Save the configuration and confirm persistence (kill the tab, reopen, verify)</li>
+            <li>Save the configuration and confirm it persists by closing the tab, reopening, and checking</li>
             <li>Run Test with a sample contact and predict the outcome before clicking Evaluate</li>
             <li>Publish the automation</li>
-            <li>Return to the published automation and modify only the Sequence A branch — save again</li>
+            <li>Return to the published automation, modify only the Sequence A branch, and save again</li>
           </ul>
-          <div class="success"><strong>Success criteria:</strong> 80%+ complete all tasks without facilitator intervention. Zero wrong-branch edits in task 5. Test outcome predictions match Evaluate output in 100% of attempts.</div>
+          <div class="success"><strong>Success criteria:</strong> 80%+ of participants complete all tasks without help from the facilitator. Zero wrong-branch edits in task 5. Test predictions match the Evaluate output every time.</div>
         </div>
       </div>
 
@@ -3510,15 +3479,14 @@ white-space: nowrap;
         <div>
           <h3>Quantitative pre/post tracking</h3>
           <div class="method">Quantitative · all users · 12 weeks</div>
-          <p>Instrument all primary KPIs 4 weeks before release for baseline. Compare 8 weeks post-release. Segment by user tenure (new / established) and automation complexity (number of branches).</p>
+          <p>Instrument all primary KPIs 4 weeks before release to set a baseline, then compare 8 weeks after. Segment by user tenure (new or established) and automation complexity (number of branches).</p>
           <p style="margin-top:8px;"><strong>What we&rsquo;re watching:</strong></p>
           <ul>
-            <li>Publish completion rate — primary signal that Save and Test fixes unblocked the funnel</li>
-            <li>Wrong-branch edits — measured via undo within 60s of save; proxy for AUD-03 confusion</li>
-            <li>Time-to-publish for Decision Diamond configs — should decrease with title clarity (AUD-05), responsive fixes (AUD-06), and reduced default inputs (AUD-08)</li>
-            <li>Support ticket volume on automation topics — leading indicator of trust restoration</li>
+            <li>Publish completion rate as the primary signal that Save and Test fixes unblocked the funnel</li>
+            <li>Time-to-publish for Decision Diamond configs. It should decrease with title clarity (AUD-05), responsive fixes (AUD-06), and reduced default inputs (AUD-08)</li>
+            <li>Support ticket volume on automation topics as a leading indicator of trust restoration</li>
           </ul>
-          <div class="success"><strong>Success criteria:</strong> All four primary KPIs hit targets within 8 weeks. No counter-metric regression beyond pre-release noise floor.</div>
+          <div class="success"><strong>Success criteria:</strong> Publish completion rate and Time-to-publish hit target within 8 weeks, with no counter-metric regression beyond normal pre-release noise.</div>
         </div>
       </div>
 
@@ -3527,8 +3495,8 @@ white-space: nowrap;
         <div>
           <h3>A/B test for new users</h3>
           <div class="method">Quantitative · new users only · 4 weeks</div>
-          <p>Random 50/50 split — control sees the existing Decision Diamond, variant sees the redesigned version. Restricted to new users so neither group has prior exposure to the legacy UI.</p>
-          <p style="margin-top:8px;"><strong>Hypothesis:</strong> the redesign produces a statistically significant lift in publish completion rate without a corresponding drop in branching automation adoption.</p>
+          <p>A random 50/50 split. Control sees the existing Decision Diamond and the variant sees the redesign. We limit it to new users so neither group is anchored by the legacy UI.</p>
+          <p style="margin-top:8px;"><strong>Hypothesis:</strong> the redesign drives a statistically significant lift in publish completion without reducing branching automation adoption.</p>
           <div class="success"><strong>Success criteria:</strong> ≥10% absolute lift in publish completion at p &lt; 0.05. Adoption of branching automations holds or grows.</div>
         </div>
       </div>
@@ -3546,9 +3514,9 @@ white-space: nowrap;
         <tr><td class="aud">AUD-02</td><td>Save state is discoverable, communicates persistence clearly</td><td>Usability test task 2 + accessibility audit (keyboard, screen reader)</td></tr>
         <tr><td class="aud">AUD-01</td><td>Test outcome matches production behavior in all rule shapes</td><td>Engineering regression suite covering all operator types + manual QA</td></tr>
         <tr><td class="aud">AUD-08</td><td>Single-rule-set default doesn&rsquo;t hide functionality from users who need more</td><td>Drop-off heatmap on &ldquo;Add rule set&rdquo; affordance + interview question on discoverability</td></tr>
-        <tr><td class="aud">AUD-03</td><td>Users edit the correct branch when downstream sequences share a name</td><td>Usability test task 5 specifically; 0% wrong-branch edits is the bar</td></tr>
-        <tr><td class="aud">AUD-04</td><td>Users identify which branch is the &ldquo;match&rdquo; path from the canvas alone</td><td>5-second test on canvas screenshot — 80%+ correct identification</td></tr>
-        <tr><td class="aud">AUD-07</td><td>Users distinguish &ldquo;ready&rdquo; from &ldquo;needs attention&rdquo; without opening the node</td><td>Color audit retest + tooltip clarity test with 8&ndash;10 users</td></tr>
+        <tr><td class="aud">AUD-03</td><td>Users edit the correct branch when downstream sequences share a name</td><td>Usability test task 5 specifically, with 0% wrong-branch edits as the bar</td></tr>
+        <tr><td class="aud">AUD-04</td><td>Users identify which branch is the &ldquo;match&rdquo; path from the canvas alone</td><td>5-second test on canvas screenshot with 80%+ correct identification</td></tr>
+        <tr><td class="aud">AUD-07</td><td>Users distinguish &ldquo;ready&rdquo; from &ldquo;needs attention&rdquo; without opening the node</td><td>Color audit retest + tooltip clarity test with 8 to 10 users</td></tr>
       </tbody>
     </table>
   </section>
@@ -3557,7 +3525,7 @@ white-space: nowrap;
   <section id="jira-tickets">
     <div class="eyebrow">Jira tickets</div>
     <h2>Decision Diamonds migration to automation engine</h2>
-    <p class="lede">All v1 delivery items live under epic TP-10331. Audit findings AUD-01 through AUD-08 are wired to the child tickets below.</p>
+    <p class="lede">All v1 work lives under epic TP-10331. Audit findings AUD-01 through AUD-08 are linked to the child tickets below.</p>
 
     <div class="epic-card">
       <div class="epic-header">
@@ -3582,9 +3550,8 @@ white-space: nowrap;
 
         <div class="jira-toolbar" role="tablist" aria-label="Filter Jira tickets by status">
           <button class="jira-filter active" data-jira-filter="all">All (11)</button>
-          <button class="jira-filter" data-jira-filter="dev">Ready for dev (4)</button>
-          <button class="jira-filter" data-jira-filter="open">Open (4)</button>
-          <button class="jira-filter" data-jira-filter="cancelled">Cancelled (3)</button>
+          <button class="jira-filter" data-jira-filter="done">Completed (8)</button>
+          <button class="jira-filter" data-jira-filter="open">Open (3)</button>
         </div>
 
         <table class="jira-table" id="jira-table">
@@ -3598,17 +3565,17 @@ white-space: nowrap;
             </tr>
           </thead>
           <tbody>
-            <tr data-status="dev"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9902" target="_blank" rel="noopener">TP-9902</a></td><td class="summary">Test function produces the wrong (reversed) outcome<a class="aud-link" href="#aud-01">AUD-01</a></td><td><span class="jira-type">Bug</span></td><td><span class="jira-status dev">Ready for dev</span></td><td class="jira-assignee">Unassigned</td></tr>
-            <tr data-status="dev"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9901" target="_blank" rel="noopener">TP-9901</a></td><td class="summary">Add a Save action to the config screen<a class="aud-link" href="#aud-02">AUD-02</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status dev">Ready for dev</span></td><td class="jira-assignee">Unassigned</td></tr>
-            <tr data-status="dev"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9899" target="_blank" rel="noopener">TP-9899</a></td><td class="summary">Rule-set panel titles don&rsquo;t scale across entity types + don&rsquo;t identify the branch<a class="aud-link" href="#aud-03">AUD-03</a><a class="aud-link" href="#aud-05">AUD-05</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status dev">Ready for dev</span></td><td class="jira-assignee">Unassigned</td></tr>
-            <tr data-status="dev"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9905" target="_blank" rel="noopener">TP-9905</a></td><td class="summary">Disambiguate the &lsquo;Ready to publish&rsquo; status indicator color<a class="aud-link" href="#aud-07">AUD-07</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status dev">Ready for dev</span></td><td class="jira-assignee">Unassigned</td></tr>
-            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9904" target="_blank" rel="noopener">TP-9904</a></td><td class="summary">Visually communicate branching on the canvas<a class="aud-link" href="#aud-04">AUD-04</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
-            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9900" target="_blank" rel="noopener">TP-9900</a></td><td class="summary">Component not fully responsive<a class="aud-link" href="#aud-06">AUD-06</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
-            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9903" target="_blank" rel="noopener">TP-9903</a></td><td class="summary">Default to one rule set (not two)<a class="aud-link" href="#aud-08">AUD-08</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
-            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9300" target="_blank" rel="noopener">TP-9300</a></td><td class="summary">[Spike] Decision Diamonds migration to automation engine, plan &amp; approach</td><td><span class="jira-type">Spike</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
-            <tr data-status="cancelled"><td class="key"><a href="https://thryv.atlassian.net/browse/FS-72357" target="_blank" rel="noopener">FS-72357</a></td><td class="summary">Remove feature flag for FS-72356, Decision Diamonds to Easy Automations</td><td><span class="jira-type">Task</span></td><td><span class="jira-status cancelled">Cancelled</span></td><td class="jira-assignee">Unassigned</td></tr>
-            <tr data-status="cancelled"><td class="key"><a href="https://thryv.atlassian.net/browse/FS-72358" target="_blank" rel="noopener">FS-72358</a></td><td class="summary">Threat model analysis for FS-72356, Decision Diamonds to Easy Automations</td><td><span class="jira-type">Task</span></td><td><span class="jira-status cancelled">Cancelled</span></td><td class="jira-assignee">Unassigned</td></tr>
-            <tr data-status="cancelled"><td class="key"><a href="https://thryv.atlassian.net/browse/FS-72359" target="_blank" rel="noopener">FS-72359</a></td><td class="summary">Create feature flag for FS-72356, Decision Diamonds to Easy Automations</td><td><span class="jira-type">Task</span></td><td><span class="jira-status cancelled">Cancelled</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="done"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9902" target="_blank" rel="noopener">TP-9902</a></td><td class="summary">Test function produces the wrong (reversed) outcome<a class="aud-link" href="#aud-01">AUD-01</a></td><td><span class="jira-type">Bug</span></td><td><span class="jira-status done">Completed</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="done"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9901" target="_blank" rel="noopener">TP-9901</a></td><td class="summary">Add a Save action to the config screen<a class="aud-link" href="#aud-02">AUD-02</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status done">Completed</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="done"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9899" target="_blank" rel="noopener">TP-9899</a></td><td class="summary">Rule-set panel titles don&rsquo;t scale across entity types + don&rsquo;t identify the branch<a class="aud-link" href="#aud-03">AUD-03</a><a class="aud-link" href="#aud-05">AUD-05</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status done">Completed</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="done"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9905" target="_blank" rel="noopener">TP-9905</a></td><td class="summary">Disambiguate the &lsquo;Ready to publish&rsquo; status indicator color<a class="aud-link" href="#aud-07">AUD-07</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status done">Completed</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="done"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9904" target="_blank" rel="noopener">TP-9904</a></td><td class="summary">Visually communicate branching on the canvas<a class="aud-link" href="#aud-04">AUD-04</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status done">Completed</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="done"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9900" target="_blank" rel="noopener">TP-9900</a></td><td class="summary">Component not fully responsive<a class="aud-link" href="#aud-06">AUD-06</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status done">Completed</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="done"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9903" target="_blank" rel="noopener">TP-9903</a></td><td class="summary">Default to one rule set (not two)<a class="aud-link" href="#aud-08">AUD-08</a></td><td><span class="jira-type">Task</span></td><td><span class="jira-status done">Completed</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="done"><td class="key"><a href="https://thryv.atlassian.net/browse/TP-9300" target="_blank" rel="noopener">TP-9300</a></td><td class="summary">[Spike] Decision Diamonds migration to automation engine, plan &amp; approach</td><td><span class="jira-type">Spike</span></td><td><span class="jira-status done">Completed</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/FS-72357" target="_blank" rel="noopener">FS-72357</a></td><td class="summary">Remove feature flag for FS-72356, Decision Diamonds to Easy Automations</td><td><span class="jira-type">Task</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/FS-72358" target="_blank" rel="noopener">FS-72358</a></td><td class="summary">Threat model analysis for FS-72356, Decision Diamonds to Easy Automations</td><td><span class="jira-type">Task</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
+            <tr data-status="open"><td class="key"><a href="https://thryv.atlassian.net/browse/FS-72359" target="_blank" rel="noopener">FS-72359</a></td><td class="summary">Create feature flag for FS-72356, Decision Diamonds to Easy Automations</td><td><span class="jira-type">Task</span></td><td><span class="jira-status open">Open</span></td><td class="jira-assignee">Unassigned</td></tr>
           </tbody>
         </table>
       </div>
@@ -3805,7 +3772,7 @@ white-space: nowrap;
     const versions = {
       v1: {
         title: 'Decision Diamond 2.0 · v1 prototype',
-        desc: 'Built from <code>Decision-Diamond-Prototype/vue-decision-diamond</code> and hosted with this page. Click through the flow as if it were a real product.',
+        desc: 'Built from <code>Decision-Diamond-Prototype/vue-decision-diamond</code> and hosted alongside this page. Click through the flow as you would in the real product.',
         src: 'prototype/',
         source: 'Chialing83/Decision-Diamond-Prototype @ 95880c3',
       },
